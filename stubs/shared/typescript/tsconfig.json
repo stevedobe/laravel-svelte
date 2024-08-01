@@ -1,0 +1,29 @@
+{
+    "extends": "@tsconfig/svelte/tsconfig.json",
+
+    "exclude": ["node_modules/*", "public/*", "vendor/*"],
+
+    "compilerOptions": {
+        "allowJs": false,
+        "checkJs": false,
+        "esModuleInterop": true,
+        "exactOptionalPropertyTypes": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "noEmit": true,
+        "noImplicitReturns": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "@/*": ["./resources/js/*"]
+        },
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "strict": true,
+        "target": "ES6",
+        "types": ["vite/client"]
+    }
+}

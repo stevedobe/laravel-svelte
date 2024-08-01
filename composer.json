@@ -1,0 +1,40 @@
+{
+    "name": "stevedobe/laravel-svelte",
+    "description": "Replace Vue with Svelte in a fresh Laravel Breeze or Laravel Jetstream installation.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Steve Dobe",
+            "email": "steve.dobe@webtend.com.au",
+            "homepage": "https://webtend.com.au/about"
+        }
+    ],
+    "homepage": "https://github.com/stevedobe/laravel-svelte",
+    "keywords": [
+        "Laravel",
+        "Breeze",
+        "Jetstream",
+        "Svelte"
+    ],
+    "require": {
+        "illuminate/support": "^11.0",
+        "symfony/finder": "^7.1"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "phpstan/phpstan": "^1.11",
+        "orchestra/testbench": "^9.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "SteveDobe\\LaravelSvelte\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SteveDobe\\LaravelSvelte\\LaravelSvelteServiceProvider"
+            ]
+        }
+    }
+}

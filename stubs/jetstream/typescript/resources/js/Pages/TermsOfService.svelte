@@ -1,0 +1,26 @@
+<script lang="ts">
+    import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.svelte';
+    import Helmet from '@/Components/Helmet.svelte';
+
+    export let terms: string;
+
+    /* eslint svelte/no-at-html-tags: "off" */
+</script>
+
+<Helmet title="Terms of Service" />
+
+<div class="font-sans text-gray-900 antialiased dark:text-gray-100">
+    <div class="bg-gray-100 pt-4 dark:bg-gray-900">
+        <div class="flex min-h-screen flex-col items-center pt-6 sm:pt-0">
+            <div>
+                <AuthenticationCardLogo />
+            </div>
+
+            <div
+                class="prose mt-6 w-full overflow-hidden bg-white p-6 shadow-md dark:prose-invert sm:max-w-2xl sm:rounded-lg dark:bg-gray-800"
+            >
+                {@html terms}
+            </div>
+        </div>
+    </div>
+</div>

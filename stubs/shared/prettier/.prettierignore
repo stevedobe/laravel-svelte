@@ -1,0 +1,10 @@
+node_modules
+public
+storage
+vendor
+.env
+.env.example
+.env.testing
+.phpunit.result.cache
+composer.lock
+package-lock.json
