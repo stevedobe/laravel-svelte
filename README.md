@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
 
 This package replaces Vue with [Svelte](https://svelte.dev/) and [Typescript](https://www.typescriptlang.org/) support in a fresh Laravel Breeze or Laravel Jetstream installation and optionally adds [Eslint](https://eslint.org/), [Prettier](https://prettier.io/) and [Cypress](https://www.cypress.io/).
 

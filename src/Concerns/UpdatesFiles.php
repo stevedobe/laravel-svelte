@@ -18,6 +18,7 @@ trait UpdatesFiles
             $starterKit = $this->starterKit();
             $hasSsr = $this->hasSsr();
 
+            $this->cleanInertiaMiddleware($starterKit);
             $this->cleanAppBlade();
             $this->cleanTailwindConfig();
             $this->cleanViteConfig($hasSsr);
@@ -50,6 +51,57 @@ trait UpdatesFiles
         }
 
         throw new Exception('Neither Laravel Breeze nor Laravel Jetstream is installed.');
+    }
+
+    /**
+     * Add appName for the Helmet component and currentRouteName in favour of Ziggy.
+     */
+    protected function cleanInertiaMiddleware(string $starterKit): void
+    {
+        $middlewarePath = base_path('app/Http/Middleware/HandleInertiaRequests.php');
+
+        $this->replaceInFile(
+            searchFor: 'use Illuminate\Http\Request;',
+            replaceWith: 'use Illuminate\Http\Request;'.PHP_EOL.'use Illuminate\Support\Facades\Route;',
+            filePath: $middlewarePath
+        );
+
+        $this->removeLinesContainingString($middlewarePath, 'use Tighten\Ziggy\Ziggy');
+
+        $searchFor = "/public function share[\s\S]+?\}/";
+
+        if ($starterKit === 'breeze') {
+            $this->replaceInFile(
+                searchFor: $searchFor,
+                replaceWith: 'public function share(Request $request): array'
+                    .PHP_EOL.'    {'
+                    .PHP_EOL.'        return ['
+                    .PHP_EOL.'            ...parent::share($request),'
+                    .PHP_EOL."            'auth' => ["
+                    .PHP_EOL.'                \'user\' => $request->user(),'
+                    .PHP_EOL.'            ],'
+                    .PHP_EOL."            'appName' => config('app.name'),"
+                    .PHP_EOL."            'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL.'        ];'
+                    .PHP_EOL.'    }',
+                filePath: $middlewarePath,
+                regex: true
+            );
+        } else {
+            $this->replaceInFile(
+                searchFor: $searchFor,
+                replaceWith: 'public function share(Request $request): array'
+                    .PHP_EOL.'    {'
+                    .PHP_EOL.'        return ['
+                    .PHP_EOL.'            ...parent::share($request),'
+                    .PHP_EOL."            'appName' => config('app.name'),"
+                    .PHP_EOL."            'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL.'        ];'
+                    .PHP_EOL.'    }',
+                filePath: $middlewarePath,
+                regex: true
+            );
+        }
     }
 
     /**
