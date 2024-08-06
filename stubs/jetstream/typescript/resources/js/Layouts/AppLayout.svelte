@@ -53,7 +53,7 @@
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <NavLink
                                 href="/dashboard"
-                                active={$page.props.currentRouteName === 'dashboard'}
+                                active={$page.props.webtend.currentRouteName === 'dashboard'}
                             >
                                 Dashboard
                             </NavLink>
@@ -276,7 +276,7 @@
                 <div class="space-y-1 pb-3 pt-2">
                     <ResponsiveNavLink
                         href="/dashboard"
-                        active={$page.props.currentRouteName === 'dashboard'}
+                        active={$page.props.webtend.currentRouteName === 'dashboard'}
                     >
                         Dashboard
                     </ResponsiveNavLink>
@@ -309,7 +309,7 @@
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink
                                 href="/user/profile"
-                                active={$page.props.currentRouteName === 'profile.show'}
+                                active={$page.props.webtend.currentRouteName === 'profile.show'}
                             >
                                 Profile
                             </ResponsiveNavLink>
@@ -317,7 +317,7 @@
                             {#if $page.props.jetstream.hasApiFeatures}
                                 <ResponsiveNavLink
                                     href="/user/api-tokens"
-                                    active={$page.props.currentRouteName === 'api-tokens.index'}
+                                    active={$page.props.webtend.currentRouteName === 'api-tokens.index'}
                                 >
                                     API Tokens
                                 </ResponsiveNavLink>
@@ -337,7 +337,7 @@
                                 <!-- Team Settings -->
                                 <ResponsiveNavLink
                                     href="/teams/{$page.props.auth.user.current_team.id}"
-                                    active={$page.props.currentRouteName === 'teams.show'}
+                                    active={$page.props.webtend.currentRouteName === 'teams.show'}
                                 >
                                     Team Settings
                                 </ResponsiveNavLink>
@@ -345,7 +345,7 @@
                                 {#if $page.props.jetstream.canCreateTeams}
                                     <ResponsiveNavLink
                                         href="/teams/create"
-                                        active={$page.props.currentRouteName === 'teams.create'}
+                                        active={$page.props.webtend.currentRouteName === 'teams.create'}
                                     >
                                         Create New Team
                                     </ResponsiveNavLink>

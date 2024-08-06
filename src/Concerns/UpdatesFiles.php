@@ -80,8 +80,10 @@ trait UpdatesFiles
                     .PHP_EOL."            'auth' => ["
                     .PHP_EOL.'                \'user\' => $request->user(),'
                     .PHP_EOL.'            ],'
-                    .PHP_EOL."            'appName' => config('app.name'),"
-                    .PHP_EOL."            'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL."            'webtend' => ["
+                    .PHP_EOL."                'appName' => config('app.name'),"
+                    .PHP_EOL."                'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL.'            ],'
                     .PHP_EOL.'        ];'
                     .PHP_EOL.'    }',
                 filePath: $middlewarePath,
@@ -94,8 +96,10 @@ trait UpdatesFiles
                     .PHP_EOL.'    {'
                     .PHP_EOL.'        return ['
                     .PHP_EOL.'            ...parent::share($request),'
-                    .PHP_EOL."            'appName' => config('app.name'),"
-                    .PHP_EOL."            'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL."            'webtend' => ["
+                    .PHP_EOL."                'appName' => config('app.name'),"
+                    .PHP_EOL."                'currentRouteName' => Route::currentRouteName(),"
+                    .PHP_EOL.'            ],'
                     .PHP_EOL.'        ];'
                     .PHP_EOL.'    }',
                 filePath: $middlewarePath,

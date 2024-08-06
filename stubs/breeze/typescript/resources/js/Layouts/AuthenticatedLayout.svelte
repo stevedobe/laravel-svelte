@@ -33,7 +33,7 @@
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <NavLink
                                 href="/dashboard"
-                                active={$page.props.currentRouteName === 'dashboard'}
+                                active={$page.props.webtend.currentRouteName === 'dashboard'}
                             >
                                 Dashboard
                             </NavLink>
@@ -126,7 +126,7 @@
                 <div class="space-y-1 pb-3 pt-2">
                     <ResponsiveNavLink
                         href="/dashboard"
-                        active={$page.props.currentRouteName === 'dashboard'}
+                        active={$page.props.webtend.currentRouteName === 'dashboard'}
                     >
                         Dashboard
                     </ResponsiveNavLink>

@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-    <title>{title ? `${title} | ` : ''}{$page.props.appName}</title>
+    <title>{title ? `${title} | ` : ''}{$page.props.webtend.appName}</title>
 
     {#if description}
         <meta name="description" content={description} />
