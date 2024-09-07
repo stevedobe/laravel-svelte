@@ -92,7 +92,7 @@
         {/if}
 
         <div class="flex items-center gap-4">
-            <PrimaryButton disabled={$form.processing} dataCy="profile-information-button">
+            <PrimaryButton disabled={$form.processing} dataTestId="profile-information-button">
                 Save
             </PrimaryButton>
 

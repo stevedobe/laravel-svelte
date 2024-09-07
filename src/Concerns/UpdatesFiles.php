@@ -293,14 +293,22 @@ trait UpdatesFiles
                 $this->copyStub('shared/prettier/.prettierrc.json', base_path('.prettierrc.json'));
             },
             'cypress' => function () use ($starterKit) {
-                $this->handleCypressRoutes();
-                $this->handleCypressEnvironment();
+                $this->handleTestingRoutes();
+                $this->handleTestingControllers();
+                $this->handleTestingEnvironment();
                 $this->handleCypressTests($starterKit);
                 $this->handleCypressConfig($starterKit);
 
                 if ($this->option('eslint')) {
                     $this->handleCypressEslintConfig();
                 }
+            },
+            'playwright' => function () use ($starterKit) {
+                $this->handleTestingRoutes();
+                $this->handleTestingControllers();
+                $this->handleTestingEnvironment();
+                $this->handlePlaywrightTests($starterKit);
+                $this->handlePlaywrightConfig($starterKit);
             },
         ];
 
@@ -312,9 +320,9 @@ trait UpdatesFiles
     }
 
     /**
-     * Handle the Cypress routes.
+     * Handle the testing routes.
      */
-    protected function handleCypressRoutes(): void
+    protected function handleTestingRoutes(): void
     {
         $this->appendToFile(base_path('routes/web.php'), [
             '',
@@ -328,9 +336,17 @@ trait UpdatesFiles
     }
 
     /**
-     * Handle the Cypress environment.
+     * Handle the testing controllers.
      */
-    protected function handleCypressEnvironment(): void
+    protected function handleTestingControllers(): void
+    {
+        $this->copyStub('shared/cypress/app/Http/Controllers/TestingController.php', base_path('app/Http/Controllers/TestingController.php'));
+    }
+
+    /**
+     * Handle the testing environment.
+     */
+    protected function handleTestingEnvironment(): void
     {
         copy(base_path('.env'), base_path('.env.testing'));
 
@@ -355,19 +371,23 @@ trait UpdatesFiles
         $this->filesystem->copyDirectory($this->stubs('shared/cypress/tests'), base_path('tests'));
 
         if ($this->filesystem->exists($this->stubs($starterKit.'/cypress/tests'))) {
-            $this->filesystem->copyDirectory($this->stubs($starterKit.'/cypress/tests'), base_path('tests'));
-        }
+            if ($starterKit === 'jetstream') {
+                if (\Laravel\Fortify\Features::enabled('api')) {
+                    $this->filesystem->copyDirectory(
+                        $this->stubs('jetstream/cypress/tests/Cypress/e2e/ApiTokens'),
+                        base_path('tests/Cypress/e2e/ApiTokens')
+                    );
+                }
 
-        if ($starterKit === 'breeze') {
-            $this->replaceInFile(
-                searchFor: '/email/verify',
-                replaceWith: '/verify-email',
-                filePath: base_path('tests/Cypress/e2e/Auth/Register.cy.ts')
-            );
-        }
-
-        if ($starterKit === 'jetstream' && \Laravel\Jetstream\Features::hasTeamFeatures()) {
-            $this->copyStub('shared/cypress/database/seeders/TeamsTestSeeder.php', base_path('database/seeders/TeamsTestSeeder.php'));
+                if (\Laravel\Fortify\Features::enabled('teams')) {
+                    $this->filesystem->copyDirectory(
+                        $this->stubs('jetstream/cypress/tests/Cypress/e2e/Teams'),
+                        base_path('tests/Cypress/e2e/Teams')
+                    );
+                }
+            } else {
+                $this->filesystem->copyDirectory($this->stubs($starterKit.'/cypress/tests'), base_path('tests'));
+            }
         }
 
         $this->appendToFile(base_path('.gitignore'), [
@@ -389,7 +409,58 @@ trait UpdatesFiles
         $this->copyStub($starterKit.'/cypress/cypress.config.ts', $cypressConfig);
 
         if ($starterKit === 'jetstream') {
-            $this->alignCypressConfigToEnabledFeatures($cypressConfig);
+            $this->alignTestingConfigToEnabledFeatures($cypressConfig);
+        }
+    }
+
+    /**
+     * Handle the Playwright tests.
+     */
+    protected function handlePlaywrightTests(string $starterKit): void
+    {
+        $this->filesystem->copyDirectory($this->stubs('shared/playwright/tests'), base_path('tests'));
+
+        $this->copyStub($starterKit.'/playwright/tests/Playwright/e2e/helpers.ts', base_path('tests/Playwright/e2e/helpers.ts'));
+
+        if ($starterKit === 'jetstream') {
+            if (\Laravel\Fortify\Features::enabled('api')) {
+                $this->filesystem->copyDirectory(
+                    $this->stubs('jetstream/playwright/tests/Playwright/e2e/ApiTokens'),
+                    base_path('tests/Playwright/e2e/ApiTokens')
+                );
+            }
+
+            if (\Laravel\Fortify\Features::enabled('teams')) {
+                $this->filesystem->copyDirectory(
+                    $this->stubs('jetstream/playwright/tests/Playwright/e2e/Teams'),
+                    base_path('tests/Playwright/e2e/Teams')
+                );
+            }
+        }
+
+        $this->appendToFile(base_path('.gitignore'), [
+            '.env.testing',
+            '/tests/Playwright/test-results/',
+            '/tests/Playwright/playwright-report/',
+            '/tests/Playwright/blob-report/',
+            '/tests/Playwright/playwright/.cache/',
+            '',
+        ]);
+    }
+
+    /**
+     * Handle the Playwright config.
+     */
+    protected function handlePlaywrightConfig(string $starterKit): void
+    {
+        $playwrightConfig = base_path('playwright.config.ts');
+
+        $this->copyStub('shared/playwright/playwright.config.ts', $playwrightConfig);
+
+        if ($starterKit === 'jetstream') {
+            $this->alignTestingConfigToEnabledFeatures(
+                base_path('tests/Playwright/e2e/helpers.ts')
+            );
         }
     }
 
@@ -422,9 +493,9 @@ trait UpdatesFiles
     }
 
     /**
-     * Align the Cypress config to the enabled features.
+     * Align the testing config to the enabled features.
      */
-    protected function alignCypressConfigToEnabledFeatures(string $cypressConfig): void
+    protected function alignTestingConfigToEnabledFeatures(string $config): void
     {
         $features = [
             \Laravel\Fortify\Features::registration() => 'registration',
@@ -444,7 +515,7 @@ trait UpdatesFiles
                 $this->replaceInFile(
                     searchFor: $feature.': false',
                     replaceWith: $feature.': true',
-                    filePath: $cypressConfig
+                    filePath: $config
                 );
             }
         }

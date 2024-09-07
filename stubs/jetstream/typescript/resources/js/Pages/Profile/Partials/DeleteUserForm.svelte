@@ -53,7 +53,7 @@
         </div>
 
         <div class="mt-5">
-            <DangerButton on:clicked={confirmUserDeletion} dataCy="delete-account-button">
+            <DangerButton on:clicked={confirmUserDeletion} dataTestId="delete-account-button">
                 Delete Account
             </DangerButton>
         </div>
@@ -77,7 +77,7 @@
                         placeholder="Password"
                         autocomplete="current-password"
                         on:entered={deleteUser}
-                        data-cy="delete-user-form-password"
+                        data-testid="delete-user-form-password"
                     />
 
                     <InputError message={$form.errors.password} classes="mt-2" />

@@ -13,19 +13,10 @@ export default defineConfig({
     },
 
     env: {
-        /**
-         * Keep this aligned to config('app.name').
-         */
+        // Keep this aligned to config('app.name').
         appName: 'Laravel',
 
-        users: {
-            user: {
-                name: 'Test User',
-                email: 'test@example.com',
-                password: 'password',
-            },
-        },
-
+        // The profile route differs between Breeze and Jetstream.
         profileRoute: '/profile',
 
         /**

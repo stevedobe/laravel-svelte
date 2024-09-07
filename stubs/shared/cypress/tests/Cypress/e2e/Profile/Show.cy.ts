@@ -1,3 +1,5 @@
+import { pageTitle } from './../helpers';
+
 describe('Profile', () => {
     const env = Cypress.env();
 
@@ -23,7 +25,7 @@ describe('Profile', () => {
         });
 
         it('has the correct title', () => {
-            cy.title().should('eq', `Profile | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Profile'));
         });
 
         it('updates the Profile Information', () => {
@@ -38,7 +40,7 @@ describe('Profile', () => {
             cy.get('#name').clear();
             cy.get('#name').type('Some Other Name');
 
-            cy.get('[data-cy=profile-information-button]').click();
+            cy.getByTestId('profile-information-button').click();
 
             cy.contains('Saved.');
         });
@@ -61,7 +63,7 @@ describe('Profile', () => {
             cy.get('#password_confirmation').clear();
             cy.get('#password_confirmation').type('another-password');
 
-            cy.get('[data-cy=update-password-button]').click();
+            cy.getByTestId('update-password-button').click();
 
             cy.contains('Saved.');
         });
@@ -75,10 +77,10 @@ describe('Profile', () => {
 
             cy.contains('Two Factor Authentication');
 
-            cy.get('[data-cy=two-factor-authentication-button]').click();
+            cy.getByTestId('two-factor-authentication-button').click();
 
-            cy.get('[data-cy=confirms-password-form-password]').type('password');
-            cy.get('[data-cy=confirms-password-form-password]').type('{enter}');
+            cy.getByTestId('confirms-password-form-password').type('password');
+            cy.getByTestId('confirms-password-form-password').type('{enter}');
 
             cy.contains('Setup Key:');
         });
@@ -90,10 +92,10 @@ describe('Profile', () => {
 
             cy.contains('Browser Sessions');
 
-            cy.get('[data-cy=logout-other-browser-sessions-button]').click();
+            cy.getByTestId('logout-other-browser-sessions-button').click();
 
-            cy.get('[data-cy=logout-other-browser-sessions-form-password]').type('password');
-            cy.get('[data-cy=logout-other-browser-sessions-form-password]').type('{enter}');
+            cy.getByTestId('logout-other-browser-sessions-form-password').type('password');
+            cy.getByTestId('logout-other-browser-sessions-form-password').type('{enter}');
 
             cy.contains('Done.');
         });
@@ -107,10 +109,10 @@ describe('Profile', () => {
 
             cy.contains('Delete Account');
 
-            cy.get('[data-cy=delete-account-button]').click();
+            cy.getByTestId('delete-account-button').click();
 
-            cy.get('[data-cy=delete-user-form-password]').type('password');
-            cy.get('[data-cy=delete-user-form-password]').type('{enter}');
+            cy.getByTestId('delete-user-form-password').type('password');
+            cy.getByTestId('delete-user-form-password').type('{enter}');
 
             cy.location('pathname').should('eq', '/');
         });

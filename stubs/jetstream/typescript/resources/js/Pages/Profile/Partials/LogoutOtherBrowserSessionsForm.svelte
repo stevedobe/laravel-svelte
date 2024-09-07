@@ -126,7 +126,7 @@
             <PrimaryButton
                 type="button"
                 on:clicked={confirmLogout}
-                dataCy="logout-other-browser-sessions-button"
+                dataTestId="logout-other-browser-sessions-button"
             >
                 Log Out Other Browser Sessions
             </PrimaryButton>
@@ -152,7 +152,7 @@
                         placeholder="Password"
                         autocomplete="current-password"
                         on:entered={logoutOtherBrowserSessions}
-                        data-cy="logout-other-browser-sessions-form-password"
+                        data-testid="logout-other-browser-sessions-form-password"
                     />
 
                     <InputError message={$form.errors.password} classes="mt-2" />

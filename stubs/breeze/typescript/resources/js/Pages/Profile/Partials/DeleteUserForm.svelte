@@ -52,7 +52,7 @@
         </p>
     </header>
 
-    <DangerButton on:clicked={confirmUserDeletion} dataCy="delete-account-button">
+    <DangerButton on:clicked={confirmUserDeletion} dataTestId="delete-account-button">
         Delete Account
     </DangerButton>
 
@@ -80,7 +80,7 @@
                     classes="mt-1 block w-3/4"
                     placeholder="Password"
                     on:entered={deleteUser}
-                    data-cy="delete-user-form-password"
+                    data-testid="delete-user-form-password"
                 />
 
                 <InputError message={$form.errors.password} classes="mt-2" />

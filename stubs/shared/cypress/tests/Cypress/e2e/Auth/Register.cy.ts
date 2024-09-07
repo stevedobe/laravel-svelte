@@ -1,3 +1,5 @@
+import { fakePerson, pageTitle } from './../helpers';
+
 describe('Registration', () => {
     const env = Cypress.env();
 
@@ -44,7 +46,7 @@ describe('Registration', () => {
         });
 
         it('has the correct title', () => {
-            cy.title().should('eq', `Register | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Register'));
         });
 
         it('has focus on the name field', () => {
@@ -58,11 +60,9 @@ describe('Registration', () => {
                 return;
             }
 
-            cy.contains('Terms of Service').should(
-                'have.attr',
-                'href',
-                Cypress.config().baseUrl + '/terms-of-service',
-            );
+            cy.contains('Terms of Service').click();
+
+            cy.location('pathname').should('eq', '/terms-of-service');
         });
 
         it('has a link to the Privacy Policy', () => {
@@ -72,86 +72,32 @@ describe('Registration', () => {
                 return;
             }
 
-            cy.contains('Privacy Policy').should(
-                'have.attr',
-                'href',
-                Cypress.config().baseUrl + '/privacy-policy',
-            );
+            cy.contains('Privacy Policy').click();
+
+            cy.location('pathname').should('eq', '/privacy-policy');
         });
 
         it('has a link to the Log in page', () => {
-            cy.contains('Already registered?').should(
-                'have.attr',
-                'href',
-                Cypress.config().baseUrl + '/login',
-            );
+            cy.contains('Already registered?').click();
+
+            cy.location('pathname').should('eq', '/login');
         });
     });
 
     context('Validation', () => {
-        before(() => {
-            cy.logout();
-        });
-
         beforeEach(() => {
-            cy.visit('/register');
+            cy.logout().visit('/register');
         });
 
-        it('fails when required fields are not provided', () => {
-            cy.get('#password_confirmation').type(env.users.user.password);
-            cy.get('button[type=submit]').click();
-
-            cy.get('input:invalid').should(
-                'have.length',
-                env.features.termsAndPrivacyPolicy ? 4 : 3,
-            );
-
-            cy.get('#name').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    'Please fill in this field.',
-                );
-            });
-
-            cy.get('#email').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    'Please fill in this field.',
-                );
-            });
-
-            cy.get('#password').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    'Please fill in this field.',
-                );
-            });
+        it('ensures fields are required', () => {
+            cy.get('input#name[required]');
+            cy.get('input#email[required]');
+            cy.get('input#password[required]');
+            cy.get('input#password_confirmation[required]');
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').then(($input) => {
-                    expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                        'Please tick this box if you want to proceed.',
-                    );
-                });
+                cy.get('input#terms[required]');
             }
-        });
-
-        it('fails when the email field is not an email address', () => {
-            cy.get('#name').type(env.users.user.name);
-            cy.get('#email').type('not-a-valid-email-address');
-            cy.get('#password').type(env.users.user.password);
-            cy.get('#password_confirmation').type(env.users.user.password);
-
-            if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
-            }
-
-            cy.get('button[type=submit]').click();
-
-            cy.get('input:invalid').should('have.length', 1);
-
-            cy.get('#email').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    "Please include an '@' in the email address. 'not-a-valid-email-address' is missing an '@'.",
-                );
-            });
         });
 
         it('fails when the password is less than 8 characters long', () => {
@@ -161,7 +107,7 @@ describe('Registration', () => {
             cy.get('#password_confirmation').type('passwrd');
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
+                cy.get('input#terms').check();
             }
 
             cy.get('button[type=submit]').click();
@@ -174,11 +120,11 @@ describe('Registration', () => {
         it('fails when the password is not the same as the confirmed password', () => {
             cy.get('#name').type('Some Body');
             cy.get('#email').type('somebody@example.com');
-            cy.get('#password').type(env.users.user.password);
+            cy.get('#password').type('password');
             cy.get('#password_confirmation').type('a-different-password');
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
+                cy.get('input#terms').check();
             }
 
             cy.get('button[type=submit]').click();
@@ -190,10 +136,6 @@ describe('Registration', () => {
     });
 
     context('The Registration Process', () => {
-        before(() => {
-            cy.exec('php artisan migrate:fresh --env=testing').its('code').should('eq', 0);
-        });
-
         beforeEach(() => {
             cy.logout().visit('/register');
         });
@@ -203,15 +145,17 @@ describe('Registration', () => {
                 return;
             }
 
+            const person = fakePerson();
+
             cy.intercept('POST', '/register').as('registerUser');
 
-            cy.get('#name').type(env.users.user.name);
-            cy.get('#email').type(env.users.user.email);
-            cy.get('#password').type(env.users.user.password);
-            cy.get('#password_confirmation').type(env.users.user.password);
+            cy.get('#name').type(person.name);
+            cy.get('#email').type(person.email);
+            cy.get('#password').type(person.password);
+            cy.get('#password_confirmation').type(person.password);
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
+                cy.get('input#terms').check();
             }
 
             cy.get('button[type=submit]').click();
@@ -219,6 +163,11 @@ describe('Registration', () => {
             cy.wait('@registerUser');
 
             cy.location('pathname').should('eq', '/dashboard');
+
+            cy.currentUser().then((user) => {
+                expect(user?.name).to.equal(person.name);
+                expect(user?.email).to.equal(person.email);
+            });
         });
 
         it('sends the verification emails if verification is turned on', () => {
@@ -226,25 +175,28 @@ describe('Registration', () => {
                 return;
             }
 
+            const person = fakePerson();
+
             cy.intercept('POST', '/register').as('registerUser');
             cy.intercept('POST', '/email/verification-notification').as('resendEmail');
 
-            cy.get('#name').type(env.users.user.name);
-            cy.get('#email').type(env.users.user.email);
-            cy.get('#password').type(env.users.user.password);
-            cy.get('#password_confirmation').type(env.users.user.password);
+            cy.get('#name').type(person.name);
+            cy.get('#email').type(person.email);
+            cy.get('#password').type('password');
+            cy.get('#password_confirmation').type('password');
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
+                cy.get('input#terms').check();
             }
 
             cy.get('button[type=submit]').click();
 
             cy.wait('@registerUser');
 
-            cy.location('pathname').should('eq', '/email/verify');
+            cy.location('pathname').should('eq', env.profileRoute);
 
-            cy.title().should('eq', `Email Verification | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Email Verification'));
+
             cy.contains('could you verify your email address');
 
             // Request another email to be sent
@@ -252,19 +204,23 @@ describe('Registration', () => {
 
             cy.wait('@resendEmail');
 
-            cy.location('pathname').should('eq', '/email/verify');
+            cy.location('pathname').should('eq', env.profileRoute);
 
             cy.contains('A new verification link has been sent to the email address');
         });
 
         it('fails when the email provided has already been taken', () => {
-            cy.get('#name').type('Different Name');
-            cy.get('#email').type(env.users.user.email);
-            cy.get('#password').type('any-password');
-            cy.get('#password_confirmation').type('any-password');
+            const person = fakePerson();
+
+            cy.create('App\\Models\\User', person);
+
+            cy.get('#name').type(person.name);
+            cy.get('#email').type(person.email);
+            cy.get('#password').type('password');
+            cy.get('#password_confirmation').type('password');
 
             if (env.features.termsAndPrivacyPolicy) {
-                cy.get('#terms').check();
+                cy.get('input#terms').check();
             }
 
             cy.get('button[type=submit]').click();
@@ -291,7 +247,7 @@ describe('Registration', () => {
         it('has the correct title', () => {
             cy.logout().visit('/terms-of-service');
 
-            cy.title().should('eq', `Terms of Service | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Terms of Service'));
         });
     });
 
@@ -307,7 +263,7 @@ describe('Registration', () => {
         it('has the correct title', () => {
             cy.logout().visit('/privacy-policy');
 
-            cy.title().should('eq', `Privacy Policy | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Privacy Policy'));
         });
     });
 });

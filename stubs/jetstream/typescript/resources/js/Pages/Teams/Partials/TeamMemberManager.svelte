@@ -148,7 +148,7 @@
                                         class:rounded-b-none={i !==
                                             Object.keys(availableRoles).length - 1}
                                         on:click={() => ($addTeamMemberForm.role = role.key)}
-                                        data-cy={`${role.key.toLowerCase()}-button`}
+                                        data-testid={`${role.key.toLowerCase()}-button`}
                                     >
                                         <div
                                             class:opacity-50={$addTeamMemberForm.role &&
@@ -201,7 +201,7 @@
                         Added.
                     </ActionMessage>
 
-                    <PrimaryButton disabled={$addTeamMemberForm.processing} dataCy="add-button">
+                    <PrimaryButton disabled={$addTeamMemberForm.processing} dataTestId="add-button">
                         Add
                     </PrimaryButton>
                 </div>

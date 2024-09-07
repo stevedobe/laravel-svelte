@@ -1,3 +1,5 @@
+import { pageTitle } from './helpers';
+
 describe('Dashboard', () => {
     context('Permissions', () => {
         it('redirects guests to the Log in page', () => {
@@ -17,7 +19,7 @@ describe('Dashboard', () => {
         it('has the correct title', () => {
             cy.login().visit('/dashboard');
 
-            cy.title().should('eq', `Dashboard | ${Cypress.env('appName')}`);
+            cy.title().should('eq', pageTitle('Dashboard'));
         });
     });
 });

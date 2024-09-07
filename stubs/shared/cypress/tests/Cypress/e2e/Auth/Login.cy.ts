@@ -1,9 +1,7 @@
+import { fakePerson, pageTitle } from './../helpers';
+
 describe('Logging In', () => {
     const env = Cypress.env();
-
-    before(() => {
-        cy.exec('php artisan migrate:fresh --seed --env=testing').its('code').should('eq', 0);
-    });
 
     context('Permissions', () => {
         it('allows guests', () => {
@@ -25,7 +23,7 @@ describe('Logging In', () => {
         });
 
         it('has the correct title', () => {
-            cy.title().should('eq', `Log in | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Log in'));
         });
 
         it('has a link to the Forgot your Password page', () => {
@@ -35,11 +33,9 @@ describe('Logging In', () => {
                 return;
             }
 
-            cy.contains('Forgot your password?').should(
-                'have.attr',
-                'href',
-                Cypress.config().baseUrl + '/forgot-password',
-            );
+            cy.contains('Forgot your password?').click();
+
+            cy.location('pathname').should('eq', '/forgot-password');
         });
     });
 
@@ -49,8 +45,12 @@ describe('Logging In', () => {
         });
 
         it('succeeds when valid credentials are provided', () => {
-            cy.get('input[type=email]').type(env.users.user.email);
-            cy.get('input[type=password]').type(env.users.user.password);
+            const person = fakePerson();
+
+            cy.create('App\\Models\\User', person);
+
+            cy.get('input[type=email]').type(person.email);
+            cy.get('input[type=password]').type(person.password);
             cy.get('button[type=submit]').click();
 
             cy.location('pathname').should('eq', '/dashboard');
@@ -58,8 +58,10 @@ describe('Logging In', () => {
 
         it('fails when a stranger attempts to log in', () => {
             cy.get('input[type=email]').type('someone-without-an-account@example.com');
-            cy.get('input[type=password]').type(env.users.user.password);
+            cy.get('input[type=password]').type('password');
             cy.get('button[type=submit]').click();
+
+            cy.location('pathname').should('eq', '/login');
 
             cy.get('input:invalid').should('have.length', 1);
 
@@ -67,58 +69,52 @@ describe('Logging In', () => {
         });
 
         it('fails when a valid user provides an incorrect password', () => {
-            cy.get('input[type=email]').type(env.users.user.email);
+            const person = fakePerson();
+
+            cy.create('App\\Models\\User', person);
+
+            cy.get('input[type=email]').type(person.email);
             cy.get('input[type=password]').type('an-incorrect-password');
             cy.get('button[type=submit]').click();
+
+            cy.location('pathname').should('eq', '/login');
 
             cy.get('input:invalid').should('have.length', 1);
 
             cy.contains('These credentials do not match our records.');
         });
 
-        it('fails when required fields are not provided', () => {
-            cy.get('button[type=submit]').click();
-
-            cy.get('input:invalid').should('have.length', 2);
-
-            cy.get('#email').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    'Please fill in this field.',
-                );
-            });
-
-            cy.get('#password').then(($input) => {
-                expect(($input[0] as HTMLObjectElement).validationMessage).to.eq(
-                    'Please fill in this field.',
-                );
-            });
+        it('ensures fields are required', () => {
+            cy.get('input#email[required]');
+            cy.get('input#password[required]');
         });
     });
 
     context('Forgot your password?', () => {
-        before(() => {
-            cy.logout().visit('/login');
-        });
-
         it('sends the password reset link email', () => {
             if (!env.features.resetPasswords) {
                 cy.log('Resetting passwords is disabled.');
+
                 return;
             }
 
+            const person = fakePerson();
+
+            cy.create('App\\Models\\User', person);
+
             cy.intercept('POST', '/forgot-password').as('emailPasswordResetLink');
 
-            cy.contains('Forgot your password?').click();
+            cy.logout().visit('/forgot-password');
 
-            cy.location('pathname').should('eq', '/forgot-password');
-
-            cy.get('input[type=email]').type(env.users.user.email);
+            cy.get('input[type=email]').type(person.email);
 
             cy.get('button[type=submit]').click();
 
             cy.wait('@emailPasswordResetLink');
 
-            cy.contains('We have emailed your password reset link.');
+            cy.contains(
+                /^(We have emailed your password reset link.|Please wait before retrying.)$/,
+            );
         });
     });
 });

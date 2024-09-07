@@ -69,7 +69,7 @@
         {#if permissions.canUpdateTeam}
             <ActionMessage on={$form.recentlySuccessful} classes="me-3">Saved.</ActionMessage>
 
-            <PrimaryButton disabled={$form.processing} dataCy="save-button">Save</PrimaryButton>
+            <PrimaryButton disabled={$form.processing} dataTestId="save-button">Save</PrimaryButton>
         {/if}
     </div>
 </FormSection>

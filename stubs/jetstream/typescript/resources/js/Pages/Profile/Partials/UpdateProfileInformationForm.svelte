@@ -196,7 +196,7 @@
     <div slot="actions" class="contents">
         <ActionMessage on={$form.recentlySuccessful} classes="me-3">Saved.</ActionMessage>
 
-        <PrimaryButton disabled={$form.processing} dataCy="profile-information-button">
+        <PrimaryButton disabled={$form.processing} dataTestId="profile-information-button">
             Save
         </PrimaryButton>
     </div>

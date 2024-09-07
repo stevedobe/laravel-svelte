@@ -95,7 +95,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <PrimaryButton disabled={$form.processing} dataCy="update-password-button">
+            <PrimaryButton disabled={$form.processing} dataTestId="update-password-button">
                 Save
             </PrimaryButton>
 

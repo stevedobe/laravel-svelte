@@ -90,7 +90,7 @@
                     placeholder="Password"
                     autocomplete="current-password"
                     on:entered={confirmPassword}
-                    data-cy="confirms-password-form-password"
+                    data-testid="confirms-password-form-password"
                 />
 
                 <InputError message={$form.error} classes="mt-2" />

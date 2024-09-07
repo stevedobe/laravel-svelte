@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 use function Laravel\Prompts\multiselect;
+use function Laravel\Prompts\select;
 
 class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
 {
@@ -28,9 +29,10 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
      * @var string
      */
     protected $signature = 'stevedobe:swap-vue-with-svelte
-        {--cypress : Cypress - Testing Framework for Javascript}
         {--eslint : ESLint - Find and fix problems in your JavaScript code}
         {--prettier : Prettier - Opinionated Code Formatter}
+        {--cypress : Cypress - Front-end testing framework}
+        {--playwright : Playwright - Front-end testing framework}
         {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
     /**
@@ -88,6 +90,8 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
         if (! $this->didReceiveOptions($input)) {
             $this->promptForOptions($input);
         }
+
+        $this->afterPromptingForMissingArguments($input, $output);
     }
 
     /**
@@ -100,9 +104,33 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
             options: [
                 'eslint' => 'ESLint     | Find and fix problems in your JavaScript code',
                 'prettier' => 'Prettier   | Opinionated Code Formatter',
-                'cypress' => 'Cypress    | Testing Framework for Javascript',
             ],
         ))->each(fn ($option) => $input->setOption((string) $option, true));
+    }
+
+    /**
+     * Interact further with the user if they were prompted for missing arguments.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @return void
+     */
+    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void
+    {
+        $default = match (true) {
+            $this->option('cypress') => 'Cypress',
+            $this->option('playwright') => 'Playwright',
+            default => 'None',
+        };
+
+        $testing = select(
+            label: 'Which front-end testing framework do you prefer?',
+            options: ['None', 'Cypress', 'Playwright'],
+            default: $default,
+        );
+
+        $input->setOption('cypress', $testing === 'Cypress');
+        $input->setOption('playwright', $testing === 'Playwright');
     }
 
     /**

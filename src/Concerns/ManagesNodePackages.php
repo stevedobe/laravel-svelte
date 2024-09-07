@@ -93,6 +93,10 @@ trait ManagesNodePackages
             $devDependencies = $this->addPackages($devDependencies, 'cypress');
         }
 
+        if ($this->option('playwright')) {
+            $devDependencies = $this->addPackages($devDependencies, 'playwright');
+        }
+
         ksort($devDependencies);
 
         return $devDependencies;
@@ -165,6 +169,11 @@ trait ManagesNodePackages
             $testParts[] = 'php artisan serve --env=testing & cypress run';
         }
 
+        if ($this->option('playwright')) {
+            $testParts[] = 'php artisan serve --env=testing & npx playwright test';
+        }
+
+        $scripts['build'] = 'vite build';
         $scripts['format'] = implode(' && ', $formatParts);
         $scripts['check'] = implode(' && ', $checkParts);
         $scripts['test'] = implode(' && ', $testParts);

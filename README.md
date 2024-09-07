@@ -3,11 +3,11 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This package replaces Vue with [Svelte](https://svelte.dev/) and [Typescript](https://www.typescriptlang.org/) support in a fresh Laravel Breeze or Laravel Jetstream installation and optionally adds [Eslint](https://eslint.org/), [Prettier](https://prettier.io/) and [Cypress](https://www.cypress.io/).
+This package replaces Vue with [Svelte](https://svelte.dev/) and [Typescript](https://www.typescriptlang.org/) support in a fresh Laravel Breeze or Laravel Jetstream installation and optionally adds [Eslint](https://eslint.org/), [Prettier](https://prettier.io/), and [Cypress](https://www.cypress.io/) or [Playwright](https://playwright.dev/).
 
 I only intended Laravel Svelte for fresh Laravel Breeze or Laravel Jetstream installations with Inertia and Vue. Because of this, I will continue implementing changes made to Breeze and Jetstream into this package to remain in sync with Laravel installations.
 
-This package will respect and keep in place any of the options provided to or excluded from your installation, such as dark, pest, ssr and teams.
+This package will respect and keep in place any of the options provided to or excluded from your installation, such as dark mode, Pest, SSR and Teams support.
 
 However, two opinionated changes occur to your Laravel installation:
 -   It installs TypeScript. You may choose to remove it, but please consider the value it provides.
@@ -15,7 +15,7 @@ However, two opinionated changes occur to your Laravel installation:
 
 ## Installation
 
-First, install a fresh copy of either Laravel Breeze or Laravel Jetstream with Inertia and Vue.
+First, install a fresh copy of Laravel Breeze or Laravel Jetstream with Inertia and Vue.
 
 -   [Laravel Breeze](https://laravel.com/docs/11.x/starter-kits) with Inertia and Vue
 
@@ -66,18 +66,19 @@ php artisan vendor:publish --provider="SteveDobe\LaravelSvelte\LaravelSvelteServ
 
 ### Execute
 
-To swap out Vue with Svelte and optionally install Eslint, Prettier and Cypress:
+To swap out Vue with Svelte, run the following command. You will be prompted to optionally install Eslint, Prettier and Cypress or Playwright.
 
 ```sh
-php artisan stevedobe:swap-vue-with-svelte [--eslint] [--prettier] [--cypress]
+php artisan stevedobe:swap-vue-with-svelte
 ```
 
 ## Notes
 
--   Helpers have been added to package.json to aid in formatting, checking and testing your application.
-    Feel free to modify or remove any of these.
--   If you have based your project on Laravel Jetstream, ensure you keep the features in cypress.config.js in sync with config/fortify.php and config/jetstream.php.
+-   Helpers have been added to package.json to aid in formatting, checking and testing your application. Feel free to modify or remove any of these.
+-   If you have based your project on Laravel Jetstream and you have installed Cypress, ensure you keep the features in cypress.config.js in sync with config/fortify.php and config/jetstream.php.
+-   If you have based your project on Laravel Jetstream and you have installed Playwright, ensure you keep the features in tests/Playwright/e2e/helpers.ts in sync with config/fortify.php and config/jetstream.php.
 -   If you have installed Cypress, you may need to change the port number of the baseUrl in cypress.config.js. Watch for what port ***php artisan serve*** has provided.
+-   If you have installed Playwright, you may need to change the port number of the baseUrl in playwright.config.ts. Watch for what port ***php artisan serve*** has provided.
 
 ## Change log
 

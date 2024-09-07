@@ -118,7 +118,7 @@
                 Created.
             </ActionMessage>
 
-            <PrimaryButton disabled={$createApiTokenForm.processing} dataCy="create-button">
+            <PrimaryButton disabled={$createApiTokenForm.processing} dataTestId="create-button">
                 Create
             </PrimaryButton>
         </div>
@@ -139,7 +139,7 @@
 
                     <!-- API Token List -->
                     <div slot="content" class="contents">
-                        <div class="space-y-6" data-cy="api-tokens">
+                        <div class="space-y-6" data-testid="api-tokens">
                             {#each tokens as token}
                                 <div class="flex items-center justify-between">
                                     <div class="break-all dark:text-white">
@@ -159,7 +159,7 @@
                                                 on:click={() => {
                                                     manageApiTokenPermissions(token);
                                                 }}
-                                                data-cy="permissions-button"
+                                                data-testid="permissions-button"
                                             >
                                                 Permissions
                                             </button>
@@ -170,7 +170,7 @@
                                             on:click={() => {
                                                 confirmApiTokenDeletion(token);
                                             }}
-                                            data-cy="delete-button"
+                                            data-testid="delete-button"
                                         >
                                             Delete
                                         </button>
@@ -201,7 +201,10 @@
         </div>
 
         <div slot="footer" class="contents">
-            <SecondaryButton on:clicked={() => (displayingToken = false)} dataCy="close-api-token">
+            <SecondaryButton
+                on:clicked={() => (displayingToken = false)}
+                dataTestId="close-api-token"
+            >
                 Close
             </SecondaryButton>
         </div>
@@ -217,7 +220,7 @@
         <div slot="content" class="contents">
             <div
                 class="grid grid-cols-1 gap-4 md:grid-cols-2"
-                data-cy="api-token-permissions-modal"
+                data-testid="api-token-permissions-modal"
             >
                 <CheckboxGroup
                     checkboxes={availablePermissions}
@@ -229,7 +232,7 @@
         <div slot="footer" class="contents">
             <SecondaryButton
                 on:clicked={() => (managingPermissionsFor = null)}
-                dataCy="cancel-permissions"
+                dataTestId="cancel-permissions"
             >
                 Cancel
             </SecondaryButton>
@@ -239,7 +242,7 @@
                 classes="ms-3"
                 disabled={$updateApiTokenForm.processing}
                 on:clicked={updateApiToken}
-                dataCy="save-permissions"
+                dataTestId="save-permissions"
             >
                 Save
             </PrimaryButton>
@@ -266,7 +269,7 @@
                 classes="ms-3"
                 disabled={$deleteApiTokenForm.processing}
                 on:clicked={deleteApiToken}
-                dataCy="delete-confirm-button"
+                dataTestId="delete-confirm-button"
             >
                 Delete
             </DangerButton>

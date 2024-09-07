@@ -41,7 +41,13 @@ return [
         ],
 
         'cypress' => [
+            '@faker-js/faker' => '^8.4.1',
             'cypress' => '^13.13.1',
+        ],
+
+        'playwright' => [
+            '@faker-js/faker' => '^8.4.1',
+            '@playwright/test' => '^1.46.1',
         ],
 
         'vue' => [

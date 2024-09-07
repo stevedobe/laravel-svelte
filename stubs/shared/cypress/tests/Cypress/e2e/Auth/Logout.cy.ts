@@ -4,11 +4,16 @@ describe('Logging Out', () => {
     });
 
     it('succeeds when clicking on the Log out link', () => {
-        cy.get('[data-cy=user-menu]').click();
+        // Restrict to visible only so that it chooses either the desktop or mobile menu.
+        cy.getByTestId('user-menu').filter(':visible').click();
 
         cy.contains('Log Out').click();
 
         cy.location('pathname').should('eq', '/');
+
+        cy.currentUser().then((user) => {
+            expect(user.email).to.be.undefined;
+        });
     });
 
     it('fails with a GET request to /logout', () => {

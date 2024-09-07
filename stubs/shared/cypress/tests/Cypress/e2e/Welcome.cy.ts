@@ -1,3 +1,5 @@
+import { pageTitle } from './helpers';
+
 describe('Welcome', () => {
     context('Permissions', () => {
         it('allows guests', () => {
@@ -25,11 +27,13 @@ describe('Welcome', () => {
         });
 
         it('has the correct title', () => {
-            cy.title().should('eq', `Welcome | ${env.appName}`);
+            cy.title().should('eq', pageTitle('Welcome'));
         });
 
         it('has a link to the Log in page', () => {
-            cy.contains('Log in').should('have.attr', 'href', Cypress.config().baseUrl + '/login');
+            cy.contains('Log in').click();
+
+            cy.location('pathname').should('eq', '/login');
         });
 
         it('has a link to the Register page if feature is enabled', () => {
@@ -39,11 +43,9 @@ describe('Welcome', () => {
                 return;
             }
 
-            cy.contains('Register').should(
-                'have.attr',
-                'href',
-                Cypress.config().baseUrl + '/register',
-            );
+            cy.contains('Register').click();
+
+            cy.location('pathname').should('eq', '/register');
         });
     });
 });

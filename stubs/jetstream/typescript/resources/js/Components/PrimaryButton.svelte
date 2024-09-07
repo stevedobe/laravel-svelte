@@ -4,7 +4,7 @@
     export let type: 'submit' | 'button' = 'submit';
     export let disabled = false;
     export let classes = '';
-    export let dataCy = '';
+    export let dataTestId = '';
 
     const dispatch = createEventDispatcher();
 
@@ -13,7 +13,7 @@
 </script>
 
 {#if disabled}
-    <button {type} disabled class="{baseClasses} opacity-50 {classes}" data-cy={dataCy}>
+    <button {type} disabled class="{baseClasses} opacity-50 {classes}" data-testid={dataTestId}>
         <slot />
     </button>
 {:else}
@@ -21,7 +21,7 @@
         {type}
         class="{baseClasses} transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 dark:hover:bg-white dark:focus:bg-white dark:focus:ring-offset-gray-800 dark:active:bg-gray-300 {classes}"
         on:click={() => dispatch('clicked')}
-        data-cy={dataCy}
+        data-testid={dataTestId}
     >
         <slot />
     </button>

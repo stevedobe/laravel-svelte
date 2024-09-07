@@ -213,7 +213,7 @@
                         <PrimaryButton
                             type="button"
                             disabled={enabling}
-                            dataCy="two-factor-authentication-button"
+                            dataTestId="two-factor-authentication-button"
                         >
                             Enable
                         </PrimaryButton>

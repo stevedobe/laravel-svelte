@@ -62,6 +62,6 @@
     </div>
 
     <div slot="actions" class="contents">
-        <PrimaryButton disabled={$form.processing} dataCy="create-button">Create</PrimaryButton>
+        <PrimaryButton disabled={$form.processing} dataTestId="create-button">Create</PrimaryButton>
     </div>
 </FormSection>
