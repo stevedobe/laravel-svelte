@@ -2,6 +2,14 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.3.0
+
+### Added
+-   Updated Node dependencies, notably:
+    -   eslint to v9
+    -   svelte-check to v4
+    -   typescript-eslint to v8
+
 ## Version 1.2.0
 
 ### Added

@@ -5,23 +5,33 @@ import svelte from 'eslint-plugin-svelte';
 import ts from 'typescript-eslint';
 
 export default [
+    js.configs.recommended,
+    ...ts.configs.strict,
+    ...ts.configs.stylistic,
+    ...svelte.configs['flat/recommended'],
+    prettier,
+
     {
+        files: ['resources/js/**/*.{ts,svelte}'],
+
         languageOptions: {
             globals: {
                 ...globals.browser,
+            },
+
+            parserOptions: {
+                project: true,
+                tsconfigRootDir: import.meta.dirname,
+                parser: ts.parser,
+                extraFileExtensions: ['.svelte'],
             },
         },
     },
 
     {
-        files: ['resources/js/**/*.{js,ts,svelte}'],
-    },
-
-    {
         ignores: [
-            'eslint.config.js',
-            'bootstrap/',
-            'node_modules/',
+            'bootstrap/cache/',
+            'bootstrap/ssr/',
             'public/',
             'storage/',
             'vendor/',
@@ -29,21 +39,4 @@ export default [
             'package-lock.json',
         ],
     },
-
-    {
-        languageOptions: {
-            parserOptions: {
-                project: true,
-                tsconfigRootDir: import.meta.dirname,
-                parser: '@typescript-eslint/parser',
-                extraFileExtensions: ['.svelte'],
-            },
-        },
-    },
-
-    js.configs.recommended,
-    ...ts.configs.strict,
-    ...ts.configs.stylistic,
-    ...svelte.configs['flat/recommended'],
-    prettier,
 ];

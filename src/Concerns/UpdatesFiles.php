@@ -478,12 +478,6 @@ trait UpdatesFiles
         );
 
         $this->replaceInFile(
-            searchFor: "'storage/',",
-            replaceWith: "'storage/',".PHP_EOL."            'tests/Cypress/',",
-            filePath: $eslintConfigPath
-        );
-
-        $this->replaceInFile(
             searchFor: "...svelte.configs['flat/recommended'],",
             replaceWith: "...svelte.configs['flat/recommended'],".PHP_EOL.'    cypress.configs.recommended,',
             filePath: $eslintConfigPath

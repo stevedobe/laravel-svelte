@@ -1,12 +1,12 @@
 declare namespace Cypress {
-    interface Chainable<Subject> {
+    interface Chainable {
         /**
          * Select an element by its data-testid attribute.
          *
          * @example
          * cy.getByTestId('save-button')
          */
-        getByTestId(selector: string): Chainable<any>;
+        getByTestId(selector: string): Chainable;
 
         /**
          * Get a CSRF token.
@@ -14,7 +14,7 @@ declare namespace Cypress {
          * @example
          * cy.csrfToken()
          */
-        csrfToken(): Chainable<any>;
+        csrfToken(): Chainable;
 
         /**
          * Get the currently authenticated user.
@@ -22,7 +22,7 @@ declare namespace Cypress {
          * @example
          * cy.currentUser()
          */
-        currentUser(): Chainable<any>;
+        currentUser(): Chainable;
 
         /**
          * Log in the user with the given attributes, or create a new user and then log them in.
@@ -32,7 +32,7 @@ declare namespace Cypress {
          * cy.login({ id: 1 })
          * cy.login({ email: user@example.com })
          */
-        login(attributes?: Cypress.RequestBody): Chainable<any>;
+        login(attributes?: RequestBody): Chainable;
 
         /**
          * Log out the current user.
@@ -46,6 +46,6 @@ declare namespace Cypress {
          * cy.create('App\\Models\\User');
          * cy.create('App\\Models\\User', { email: user@example.com });
          */
-        create(model: string, attributes?: Cypress.RequestBody): Chainable<any>;
+        create(model: string, attributes?: RequestBody): Chainable;
     }
 }

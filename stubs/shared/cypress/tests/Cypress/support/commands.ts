@@ -1,5 +1,3 @@
-/// <reference path="./commands.d.ts" />
-
 /**
  * Select an element by its data-testid attribute.
  */

@@ -1,15 +1,16 @@
 {
     "extends": "@tsconfig/svelte/tsconfig.json",
 
-    "exclude": ["node_modules/*", "public/*", "vendor/*"],
+    "include": ["resources/js/**/*"],
 
     "compilerOptions": {
-        "allowJs": false,
-        "checkJs": false,
+        "allowJs": true,
+        "checkJs": true,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
+        "lib": ["ES2023"],
         "module": "ESNext",
         "moduleResolution": "bundler",
         "noEmit": true,
