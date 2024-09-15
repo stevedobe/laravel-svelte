@@ -32,8 +32,8 @@ trait ValidatesLaravel
         }
 
         if ($this->hasComposerPackage('laravel/jetstream')) {
-            if ($this->composerPackageVersion('laravel/jetstream') !== '^5.1') {
-                $this->components->error('This package is only compatible with Laravel Jetstream 5.1.');
+            if ($this->composerPackageVersion('laravel/jetstream') !== '^5.2') {
+                $this->components->error('This package is only compatible with Laravel Jetstream 5.2.');
 
                 return false;
             }
