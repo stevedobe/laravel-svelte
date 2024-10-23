@@ -2,8 +2,8 @@
 
 return [
     'compatibleWith' => [
-        'laravel/breeze' => '2.1',
-        'laravel/jetstream' => '5.2',
+        'laravel/breeze' => '2.2',
+        'laravel/jetstream' => '5.3',
     ],
     'dependencies' => [
         // We install Svelte and Typescript packages regardless of the options chosen.

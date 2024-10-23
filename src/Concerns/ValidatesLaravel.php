@@ -24,16 +24,16 @@ trait ValidatesLaravel
         }
 
         if ($this->hasComposerPackage('laravel/breeze')) {
-            if ($this->composerPackageVersion('laravel/breeze') !== '^2.1') {
-                $this->components->error('This package is only compatible with Laravel Breeze 2.1.');
+            if ($this->composerPackageVersion('laravel/breeze') !== '^2.2') {
+                $this->components->error('This package is only compatible with Laravel Breeze 2.2.');
 
                 return false;
             }
         }
 
         if ($this->hasComposerPackage('laravel/jetstream')) {
-            if ($this->composerPackageVersion('laravel/jetstream') !== '^5.2') {
-                $this->components->error('This package is only compatible with Laravel Jetstream 5.2.');
+            if ($this->composerPackageVersion('laravel/jetstream') !== '^5.3') {
+                $this->components->error('This package is only compatible with Laravel Jetstream 5.3.');
 
                 return false;
             }

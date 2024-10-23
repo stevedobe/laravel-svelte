@@ -37,6 +37,7 @@
     const closeModal = () => {
         confirmingUserDeletion = false;
 
+        $form.clearErrors();
         $form.reset();
     };
 </script>

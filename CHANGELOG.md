@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.5.0
+
+### Added
+-   Breeze 2.2
+-   Jetstream 5.3
+
 ## Version 1.4.0
 
 ### Added

@@ -1,5 +1,5 @@
-import './bootstrap';
 import '../css/app.css';
+import './bootstrap';
 
 import { createInertiaApp } from '@inertiajs/svelte';
 import type { ComponentType } from 'svelte';
