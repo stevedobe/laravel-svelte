@@ -181,7 +181,9 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
         }
 
         $process->run(function ($type, $line) {
-            $this->output->write('    '.$line);
+            if (is_string($line)) {
+                $this->output->write('    '.$line);
+            }
         });
     }
 
@@ -219,6 +221,14 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
             throw new Exception('Invalid JSON in '.$path.' file.');
         }
 
+        /**
+         * @var array{
+         *     'devDependencies'?: array<string, string>,
+         *     'require'?: array<string, string>,
+         *     'require-dev'?: array<string, string>,
+         *     'scripts'?: array<string, string>,
+         * } $json
+         */
         return $json;
     }
 }

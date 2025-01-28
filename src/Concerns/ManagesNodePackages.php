@@ -113,8 +113,7 @@ trait ManagesNodePackages
         $packages = (array) config('laravel-svelte.dependencies.'.$element, []);
 
         foreach ($packages as $packageName => $packageVersion) {
-            // We are only interested in the immediate children. Ignore nested arrays.
-            if (is_string($packageVersion)) {
+            if (is_string($packageName) && is_string($packageVersion)) {
                 $devDependencies[$packageName] = $packageVersion;
             }
         }
