@@ -15,31 +15,7 @@ However, two opinionated changes occur to your Laravel installation:
 
 ## Installation
 
-First, install a fresh copy of Laravel Breeze or Laravel Jetstream with Inertia and Vue.
-
--   [Laravel Breeze](https://laravel.com/docs/11.x/starter-kits) with Inertia and Vue
-
-```bash
-composer create-project laravel/laravel example-app
-
-cd example-app
-
-composer require laravel/breeze --dev
-
-php artisan breeze:install vue [--dark] [--pest] [--ssr] [--typescript]
-```
-
--   [Laravel Jetstream](https://jetstream.laravel.com/installation.html) with Inertia
-
-```bash
-composer create-project laravel/laravel example-app
-
-cd example-app
-
-composer require laravel/jetstream
-
-php artisan jetstream:install inertia [--dark] [--teams] [--api] [--verification] [--pest] [--ssr]
-```
+First, install a fresh copy of [Laravel Breeze](https://laravel.com/docs/11.x/starter-kits) or [Laravel Jetstream](https://jetstream.laravel.com/installation.html) with Inertia and Vue.
 
 Then, install Laravel Svelte via Composer
 
