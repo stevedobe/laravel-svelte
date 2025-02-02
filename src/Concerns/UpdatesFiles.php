@@ -171,6 +171,12 @@ trait UpdatesFiles
         $this->removeLinesContainingString($viteConfigPath, 'import vue from ');
 
         $this->replaceInFile(
+            searchFor: 'laravel({',
+            replaceWith: 'tailwindcss(),'.PHP_EOL.'        laravel({',
+            filePath: $viteConfigPath
+        );
+
+        $this->replaceInFile(
             searchFor: '/vue\(\{[\s\S]+?\}\)/',
             replaceWith: $hasSsr
                 ? 'svelte({'
@@ -178,9 +184,7 @@ trait UpdatesFiles
                     .PHP_EOL.'                hydratable: true,'
                     .PHP_EOL.'            },'
                     .PHP_EOL.'        }),'
-                    .PHP_EOL.'        tailwindcss(),'
-                : 'svelte(),'
-                    .PHP_EOL.'        tailwindcss(),',
+                : 'svelte(),',
             filePath: $viteConfigPath,
             regex: true
         );
