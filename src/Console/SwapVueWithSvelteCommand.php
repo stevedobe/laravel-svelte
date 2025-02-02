@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
 use RuntimeException;
-use SteveDobe\LaravelSvelte\Concerns\RemovesZiggy;
 use SteveDobe\LaravelSvelte\Concerns\UpdatesFiles;
 use SteveDobe\LaravelSvelte\Concerns\ManagesNodePackages;
 use SteveDobe\LaravelSvelte\Concerns\ManagesPhpDependencies;
@@ -21,7 +20,7 @@ use function Laravel\Prompts\select;
 
 class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
 {
-    use ManagesNodePackages, ManagesPhpDependencies, RemovesZiggy, UpdatesFiles, ValidatesLaravel;
+    use ManagesNodePackages, ManagesPhpDependencies, UpdatesFiles, ValidatesLaravel;
 
     /**
      * The name and signature of the console command.
@@ -59,7 +58,7 @@ class SwapVueWithSvelteCommand extends Command implements PromptsForMissingInput
             return 1;
         }
 
-        if (! $this->removeZiggy()) {
+        if (! $this->updateComposerJson()) {
             return 1;
         }
 

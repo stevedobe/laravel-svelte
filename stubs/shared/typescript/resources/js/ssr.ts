@@ -12,6 +12,11 @@ createServer((page: Page) =>
             return pages[`./Pages/${name}.svelte`];
         },
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setup({ App, props }: { App: any; props: any }) {
+            return App.render(props);
+        },
+
         progress: {
             color: '#4B5563',
         },

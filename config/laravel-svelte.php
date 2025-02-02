@@ -8,7 +8,7 @@ return [
     'dependencies' => [
         // We install Svelte and Typescript packages regardless of the options chosen.
         'base' => [
-            '@inertiajs/svelte' => '^1.2.0',
+            '@inertiajs/svelte' => '^2.0.3',
             '@sveltejs/vite-plugin-svelte' => '^3.1.2',
             '@tailwindcss/vite' => '^4.0.1',
             '@tsconfig/svelte' => '^5.0.4',

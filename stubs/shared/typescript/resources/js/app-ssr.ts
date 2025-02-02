@@ -2,7 +2,6 @@ import './bootstrap';
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/svelte';
-import type { ComponentType } from 'svelte';
 
 createInertiaApp({
     resolve: (name: string) => {
@@ -11,8 +10,9 @@ createInertiaApp({
         return pages[`./Pages/${name}.svelte`];
     },
 
-    setup({ el, App }: { el: Element; App: ComponentType }) {
-        new App({ target: el, hydrate: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setup({ el, App, props }: { el: Element; App: any; props: any }) {
+        new App({ target: el, props, hydrate: true });
     },
 
     progress: {

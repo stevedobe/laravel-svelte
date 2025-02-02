@@ -28,7 +28,7 @@
         $form
             .transform((data: LoginForm) => ({
                 ...data,
-                remember: $form.remember ? 'on' : '',
+                remember: data.remember ? 'on' : '',
             }))
             .post('/login', {
                 onFinish: () => $form.reset('password'),
