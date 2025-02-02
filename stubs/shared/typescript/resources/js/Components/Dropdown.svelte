@@ -44,7 +44,7 @@
                 role="button"
                 tabindex="0"
             >
-                <div class="rounded-md ring-1 ring-black ring-opacity-5 {contentClasses}">
+                <div class="rounded-md ring-1 ring-black/5 {contentClasses}">
                     <slot name="content" />
                 </div>
             </div>

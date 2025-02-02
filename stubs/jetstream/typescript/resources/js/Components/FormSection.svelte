@@ -23,7 +23,7 @@
     <div class="mt-5 md:col-span-2 md:mt-0">
         <form on:submit|preventDefault={() => dispatch('submitted')}>
             <div
-                class="bg-white px-4 py-5 shadow sm:p-6 dark:bg-gray-800"
+                class="bg-white px-4 py-5 shadow-sm sm:p-6 dark:bg-gray-800"
                 class:sm:rounded-tl-md={hasActions}
                 class:sm:rounded-tr-md={hasActions}
                 class:sm:rounded-md={!hasActions}
@@ -35,7 +35,7 @@
 
             {#if hasActions}
                 <div
-                    class="flex items-center justify-end bg-gray-50 px-4 py-3 text-end shadow sm:rounded-bl-md sm:rounded-br-md sm:px-6 dark:bg-gray-800"
+                    class="flex items-center justify-end bg-gray-50 px-4 py-3 text-end shadow-sm sm:rounded-bl-md sm:rounded-br-md sm:px-6 dark:bg-gray-800"
                 >
                     <slot name="actions" />
                 </div>

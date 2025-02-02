@@ -9,7 +9,7 @@
     const dispatch = createEventDispatcher();
 
     const baseClasses =
-        'inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300';
+        'inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-xs dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300';
 </script>
 
 {#if disabled}

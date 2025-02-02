@@ -20,6 +20,7 @@ trait UpdatesFiles
 
             $this->cleanInertiaMiddleware($starterKit);
             $this->cleanAppBlade();
+            $this->cleanAppCss($starterKit);
             $this->cleanTailwindConfig();
             $this->cleanViteConfig($hasSsr);
             $this->cleanAppJs($hasSsr);
@@ -129,6 +130,16 @@ trait UpdatesFiles
     }
 
     /**
+     * Clean the application's app.css.
+     */
+    protected function cleanAppCss(string $starterKit): void
+    {
+        $this->filesystem->delete(resource_path('css/app.css'));
+
+        $this->copyStub($starterKit.'/typescript/resources/css/app.css', resource_path('css/app.css'));
+    }
+
+    /**
      * Clean the application's tailwind.config.js.
      */
     protected function cleanTailwindConfig(): void
@@ -152,8 +163,8 @@ trait UpdatesFiles
         $viteConfigPath = base_path('vite.config.js');
 
         $this->replaceInFile(
-            searchFor: 'import laravel',
-            replaceWith: "import { svelte } from '@sveltejs/vite-plugin-svelte';".PHP_EOL.'import laravel',
+            searchFor: "import laravel from 'laravel-vite-plugin';",
+            replaceWith: "import { svelte } from '@sveltejs/vite-plugin-svelte';".PHP_EOL."import laravel from 'laravel-vite-plugin';".PHP_EOL."import tailwindcss from '@tailwindcss/vite';",
             filePath: $viteConfigPath
         );
 
@@ -166,8 +177,10 @@ trait UpdatesFiles
                     .PHP_EOL.'            compilerOptions: {'
                     .PHP_EOL.'                hydratable: true,'
                     .PHP_EOL.'            },'
-                    .PHP_EOL.'        })'
-                : 'svelte()',
+                    .PHP_EOL.'        }),'
+                    .PHP_EOL.'        tailwindcss(),'
+                : 'svelte(),'
+                    .PHP_EOL.'        tailwindcss(),',
             filePath: $viteConfigPath,
             regex: true
         );

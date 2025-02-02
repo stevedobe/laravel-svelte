@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+
+@source "../views/app.blade.php";
+
+@theme {
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}

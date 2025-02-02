@@ -10,7 +10,8 @@
     export let status: string;
     export let classes = '';
 
-    let user = $page.props.auth.user;
+    let { user } = $page.props.auth;
+    $: user = $page.props.auth.user;
 
     const form = useForm({
         name: user.name,

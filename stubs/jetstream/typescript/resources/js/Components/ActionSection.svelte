@@ -16,7 +16,7 @@
     </SectionTitle>
 
     <div class="mt-5 md:col-span-2 md:mt-0">
-        <div class="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 dark:bg-gray-800">
+        <div class="bg-white px-4 py-5 shadow-sm sm:rounded-lg sm:p-6 dark:bg-gray-800">
             <slot name="content" />
         </div>
     </div>

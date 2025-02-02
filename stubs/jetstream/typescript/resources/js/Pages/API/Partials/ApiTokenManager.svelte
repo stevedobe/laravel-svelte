@@ -193,7 +193,7 @@
 
             {#if $page.props.jetstream.flash.token}
                 <div
-                    class="mt-4 break-all rounded bg-gray-100 px-4 py-2 font-mono text-sm text-gray-500 dark:bg-gray-900"
+                    class="mt-4 break-all rounded-sm bg-gray-100 px-4 py-2 font-mono text-sm text-gray-500 dark:bg-gray-900"
                 >
                     {$page.props.jetstream.flash.token}
                 </div>

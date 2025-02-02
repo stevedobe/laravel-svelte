@@ -12,6 +12,9 @@
     export let title = '';
     export let description = '';
 
+    let { user } = $page.props.auth;
+    $: user = $page.props.auth.user;
+
     let showingNavigationDropdown = false;
 
     const switchToTeam = (event: { detail: { team: Team } }) => {
@@ -60,11 +63,11 @@
                         </div>
                     </div>
 
-                    {#if $page.props.auth.user}
+                    {#if user}
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <div class="relative ms-3">
                                 <!-- Teams Dropdown -->
-                                {#if $page.props.jetstream.hasTeamFeatures && $page.props.auth.user.current_team}
+                                {#if $page.props.jetstream.hasTeamFeatures && user.current_team}
                                     <Dropdown width={60}>
                                         <div slot="trigger" class="contents">
                                             <span class="inline-flex rounded-md">
@@ -72,7 +75,7 @@
                                                     type="button"
                                                     class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
                                                 >
-                                                    {$page.props.auth.user.current_team.name}
+                                                    {user.current_team.name}
 
                                                     <svg
                                                         class="-me-0.5 ms-2 h-4 w-4"
@@ -100,10 +103,7 @@
                                                 </div>
 
                                                 <!-- Team Settings -->
-                                                <DropdownLink
-                                                    href="/teams/{$page.props.auth.user.current_team
-                                                        .id}"
-                                                >
+                                                <DropdownLink href="/teams/{user.current_team.id}">
                                                     Team Settings
                                                 </DropdownLink>
 
@@ -114,7 +114,7 @@
                                                 {/if}
 
                                                 <!-- Team Switcher -->
-                                                {#if $page.props.auth.user.all_teams.length > 1}
+                                                {#if user.all_teams.length > 1}
                                                     <div
                                                         class="border-t border-gray-200 dark:border-gray-600"
                                                     />
@@ -125,7 +125,7 @@
                                                         Switch Teams
                                                     </div>
 
-                                                    {#each $page.props.auth.user.all_teams as team (team.id)}
+                                                    {#each user.all_teams as team (team.id)}
                                                         <form
                                                             on:submit|preventDefault={() => {
                                                                 switchToTeam(team);
@@ -133,7 +133,7 @@
                                                         >
                                                             <DropdownLink as="button">
                                                                 <div class="flex items-center">
-                                                                    {#if team.id === $page.props.auth.user.current_team_id}
+                                                                    {#if team.id === user.current_team_id}
                                                                         <svg
                                                                             class="me-2 h-5 w-5 text-green-400"
                                                                             xmlns="http://www.w3.org/2000/svg"
@@ -171,8 +171,8 @@
                                                 class="flex rounded-full border-2 border-transparent text-sm transition focus:border-gray-300 focus:outline-none"
                                             >
                                                 <img
-                                                    src={$page.props.auth.user.profile_photo_url}
-                                                    alt={$page.props.auth.user.name}
+                                                    src={user.profile_photo_url}
+                                                    alt={user.name}
                                                     class="h-8 w-8 rounded-full object-cover"
                                                 />
                                             </button>
@@ -182,7 +182,7 @@
                                                     type="button"
                                                     class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
                                                 >
-                                                    {$page.props.auth.user.name}
+                                                    {user.name}
 
                                                     <svg
                                                         class="-me-0.5 ms-2 h-4 w-4"
@@ -284,14 +284,14 @@
                 </div>
 
                 <!-- Responsive Settings Options -->
-                {#if $page.props.auth.user}
+                {#if user}
                     <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
                         <div class="flex items-center px-4">
                             {#if $page.props.jetstream.managesProfilePhotos}
                                 <div class="me-3 shrink-0">
                                     <img
-                                        src={$page.props.auth.user.profile_photo_url}
-                                        alt={$page.props.auth.user.name}
+                                        src={user.profile_photo_url}
+                                        alt={user.name}
                                         class="h-10 w-10 rounded-full object-cover"
                                     />
                                 </div>
@@ -299,10 +299,10 @@
 
                             <div>
                                 <div class="text-base font-medium text-gray-800 dark:text-gray-200">
-                                    {$page.props.auth.user.name}
+                                    {user.name}
                                 </div>
                                 <div class="text-sm font-medium text-gray-500">
-                                    {$page.props.auth.user.email}
+                                    {user.email}
                                 </div>
                             </div>
                         </div>
@@ -330,14 +330,14 @@
                             </form>
 
                             <!-- Team Management -->
-                            {#if $page.props.jetstream.hasTeamFeatures && $page.props.auth.user.current_team}
+                            {#if $page.props.jetstream.hasTeamFeatures && user.current_team}
                                 <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">Manage Team</div>
 
                                 <!-- Team Settings -->
                                 <ResponsiveNavLink
-                                    href="/teams/{$page.props.auth.user.current_team.id}"
+                                    href="/teams/{user.current_team.id}"
                                     active={$page.props.webtend.currentRouteName === 'teams.show'}
                                 >
                                     Team Settings
@@ -353,14 +353,14 @@
                                 {/if}
 
                                 <!-- Team Switcher -->
-                                {#if $page.props.auth.user.all_teams.length > 1}
+                                {#if user.all_teams.length > 1}
                                     <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         Switch Teams
                                     </div>
 
-                                    {#each $page.props.auth.user.all_teams as team (team.id)}
+                                    {#each user.all_teams as team (team.id)}
                                         <form
                                             on:submit|preventDefault={() => {
                                                 switchToTeam(team);
@@ -368,7 +368,7 @@
                                         >
                                             <ResponsiveNavLink as="button">
                                                 <div class="flex items-center">
-                                                    {#if team.id === $page.props.auth.user.current_team_id}
+                                                    {#if team.id === user.current_team_id}
                                                         <svg
                                                             class="me-2 h-5 w-5 text-green-400"
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -399,7 +399,7 @@
 
         <!-- Page Heading -->
         {#if $$slots.header}
-            <header class="bg-white shadow dark:bg-gray-800">
+            <header class="bg-white shadow-sm dark:bg-gray-800">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>

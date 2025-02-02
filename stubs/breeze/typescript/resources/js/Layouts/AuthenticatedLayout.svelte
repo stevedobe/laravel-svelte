@@ -6,6 +6,9 @@
     import NavLink from '@/Components/NavLink.svelte';
     import ResponsiveNavLink from '@/Components/ResponsiveNavLink.svelte';
 
+    let { user } = $page.props.auth;
+    $: user = $page.props.auth.user;
+
     let showingNavigationDropdown = false;
 
     const logout = () => {
@@ -40,7 +43,7 @@
                         </div>
                     </div>
 
-                    {#if $page.props.auth.user}
+                    {#if user}
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3" data-testid="user-menu">
@@ -51,7 +54,7 @@
                                                 type="button"
                                                 class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                             >
-                                                {$page.props.auth.user.name}
+                                                {user.name}
 
                                                 <svg
                                                     class="-me-0.5 ms-2 h-4 w-4"
@@ -134,14 +137,14 @@
                 </div>
 
                 <!-- Responsive Settings Options -->
-                {#if $page.props.auth.user}
+                {#if user}
                     <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
                         <div class="px-4">
                             <div class="text-base font-medium text-gray-800 dark:text-gray-200">
-                                {$page.props.auth.user.name}
+                                {user.name}
                             </div>
                             <div class="text-sm font-medium text-gray-500">
-                                {$page.props.auth.user.email}
+                                {user.email}
                             </div>
                         </div>
 
@@ -159,7 +162,7 @@
 
         <!-- Page Heading -->
         {#if $$slots.header}
-            <header class="bg-white shadow dark:bg-gray-800">
+            <header class="bg-white shadow-sm dark:bg-gray-800">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
