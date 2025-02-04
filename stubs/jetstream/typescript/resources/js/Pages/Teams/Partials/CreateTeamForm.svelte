@@ -36,7 +36,7 @@
                 <img
                     src={user.profile_photo_url}
                     alt={user.name}
-                    class="h-12 w-12 rounded-full object-cover"
+                    class="size-12 rounded-full object-cover"
                 />
 
                 <div class="ms-4 leading-tight">

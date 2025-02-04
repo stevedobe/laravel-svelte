@@ -57,7 +57,7 @@
                                                 {user.name}
 
                                                 <svg
-                                                    class="-me-0.5 ms-2 h-4 w-4"
+                                                    class="-me-0.5 ms-2 size-4"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -94,7 +94,7 @@
                             data-testid="user-menu"
                         >
                             <svg
-                                class="h-6 w-6"
+                                class="size-6"
                                 stroke="currentColor"
                                 fill="none"
                                 viewBox="0 0 24 24"

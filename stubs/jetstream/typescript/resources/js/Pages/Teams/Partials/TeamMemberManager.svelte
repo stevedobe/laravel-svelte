@@ -166,7 +166,7 @@
 
                                                 {#if $addTeamMemberForm.role === role.key}
                                                     <svg
-                                                        class="ms-2 h-5 w-5 text-green-400"
+                                                        class="ms-2 size-5 text-green-400"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -273,7 +273,7 @@
                                     <img
                                         src={user.profile_photo_url}
                                         alt={user.name}
-                                        class="h-8 w-8 rounded-full object-cover"
+                                        class="size-8 rounded-full object-cover"
                                     />
                                     <div class="ms-4 dark:text-white">
                                         {user.name}
@@ -362,7 +362,7 @@
 
                                         {#if $updateRoleForm.role === role.key}
                                             <svg
-                                                class="ms-2 h-5 w-5 text-green-400"
+                                                class="ms-2 size-5 text-green-400"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"
                                                 viewBox="0 0 24 24"

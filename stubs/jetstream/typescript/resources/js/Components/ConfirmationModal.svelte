@@ -13,10 +13,10 @@
     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
         <div class="sm:flex sm:items-start">
             <div
-                class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10"
             >
                 <svg
-                    class="h-6 w-6 text-red-600 dark:text-red-400"
+                    class="size-6 text-red-600 dark:text-red-400"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

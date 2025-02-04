@@ -110,14 +110,14 @@
                     <img
                         src={user.profile_photo_url}
                         alt={user.name}
-                        class="h-20 w-20 rounded-full object-cover"
+                        class="size-20 rounded-full object-cover"
                     />
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" class:hidden={!photoPreview}>
                     <span
-                        class="block h-20 w-20 rounded-full bg-cover bg-center bg-no-repeat"
+                        class="block size-20 rounded-full bg-cover bg-center bg-no-repeat"
                         style={`background-image: url('${String(photoPreview)}');`}
                     />
                 </div>

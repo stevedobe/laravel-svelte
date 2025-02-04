@@ -78,7 +78,7 @@
                                                     {user.current_team.name}
 
                                                     <svg
-                                                        class="-me-0.5 ms-2 h-4 w-4"
+                                                        class="-me-0.5 ms-2 size-4"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -135,7 +135,7 @@
                                                                 <div class="flex items-center">
                                                                     {#if team.id === user.current_team_id}
                                                                         <svg
-                                                                            class="me-2 h-5 w-5 text-green-400"
+                                                                            class="me-2 size-5 text-green-400"
                                                                             xmlns="http://www.w3.org/2000/svg"
                                                                             fill="none"
                                                                             viewBox="0 0 24 24"
@@ -173,7 +173,7 @@
                                                 <img
                                                     src={user.profile_photo_url}
                                                     alt={user.name}
-                                                    class="h-8 w-8 rounded-full object-cover"
+                                                    class="size-8 rounded-full object-cover"
                                                 />
                                             </button>
                                         {:else}
@@ -185,7 +185,7 @@
                                                     {user.name}
 
                                                     <svg
-                                                        class="-me-0.5 ms-2 h-4 w-4"
+                                                        class="-me-0.5 ms-2 size-4"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -241,7 +241,7 @@
                             data-testid="user-menu"
                         >
                             <svg
-                                class="h-6 w-6"
+                                class="size-6"
                                 stroke="currentColor"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -292,7 +292,7 @@
                                     <img
                                         src={user.profile_photo_url}
                                         alt={user.name}
-                                        class="h-10 w-10 rounded-full object-cover"
+                                        class="size-10 rounded-full object-cover"
                                     />
                                 </div>
                             {/if}
@@ -370,7 +370,7 @@
                                                 <div class="flex items-center">
                                                     {#if team.id === user.current_team_id}
                                                         <svg
-                                                            class="me-2 h-5 w-5 text-green-400"
+                                                            class="me-2 size-5 text-green-400"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             fill="none"
                                                             viewBox="0 0 24 24"

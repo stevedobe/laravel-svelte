@@ -8,7 +8,7 @@
 >
     <div>
         <a href="/" use:inertia>
-            <ApplicationLogo classes="h-20 w-20 fill-current text-gray-500" />
+            <ApplicationLogo classes="size-20 fill-current text-gray-500" />
         </a>
     </div>
 

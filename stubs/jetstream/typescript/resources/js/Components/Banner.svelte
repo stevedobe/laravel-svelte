@@ -22,7 +22,7 @@
                         >
                             {#if style === 'success'}
                                 <svg
-                                    class="h-5 w-5 text-white"
+                                    class="size-5 text-white"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -39,7 +39,7 @@
 
                             {#if style === 'danger'}
                                 <svg
-                                    class="h-5 w-5 text-white"
+                                    class="size-5 text-white"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -72,7 +72,7 @@
                             on:click|preventDefault={() => (show = false)}
                         >
                             <svg
-                                class="h-5 w-5 text-white"
+                                class="size-5 text-white"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
