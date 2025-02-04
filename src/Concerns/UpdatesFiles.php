@@ -28,6 +28,7 @@ trait UpdatesFiles
             $this->replaceViewsWithSvelte($starterKit, $hasSsr);
             $this->applyFeatureSpecificUpdates($starterKit);
             $this->removePostcssConfig();
+            $this->removeEslintrc();
 
             $this->components->info('Required files copied.');
 
@@ -343,6 +344,16 @@ trait UpdatesFiles
     protected function removePostcssConfig(): void
     {
         $this->filesystem->delete(base_path('postcss.config.js'));
+    }
+
+    /**
+     * Remove .eslintrc.cjs.
+     */
+    protected function removeEslintrc(): void
+    {
+        if (file_exists(base_path('.eslintrc.cjs'))) {
+            $this->filesystem->delete(base_path('.eslintrc.cjs'));
+        }
     }
 
     /**
