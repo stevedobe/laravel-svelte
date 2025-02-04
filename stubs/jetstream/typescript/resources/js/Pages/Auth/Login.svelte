@@ -12,11 +12,11 @@
     export let canResetPassword: boolean;
     export let status: string;
 
-    type LoginForm = {
+    interface LoginForm {
         email: string;
         password: string;
         remember: boolean;
-    };
+    }
 
     const form = useForm({
         email: '',
@@ -91,7 +91,7 @@
                 <a
                     href="/forgot-password"
                     use:inertia
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                 >
                     Forgot your password?
                 </a>

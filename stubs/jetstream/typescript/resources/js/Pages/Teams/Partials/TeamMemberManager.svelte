@@ -139,7 +139,7 @@
                                 {#each availableRoles as role, i (role.key)}
                                     <button
                                         type="button"
-                                        class="relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                                        class="relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                                         class:border-t={i > 0}
                                         class:border-gray-200={i > 0}
                                         class:dark:border-gray-700={i > 0}
@@ -338,7 +338,7 @@
                         {#each availableRoles as role, i (role.key)}
                             <button
                                 type="button"
-                                class="relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
+                                class="relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:focus:border-indigo-600 dark:focus:ring-indigo-600"
                                 class:border-t={i > 0}
                                 class:border-gray-200={i > 0}
                                 class:dark:border-gray-700={i > 0}

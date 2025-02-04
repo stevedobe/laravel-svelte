@@ -73,12 +73,12 @@
                                             <span class="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
+                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
                                                 >
                                                     {user.current_team.name}
 
                                                     <svg
-                                                        class="-me-0.5 ms-2 size-4"
+                                                        class="ms-2 -me-0.5 size-4"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -180,12 +180,12 @@
                                             <span class="inline-flex rounded-md">
                                                 <button
                                                     type="button"
-                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
+                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
                                                 >
                                                     {user.name}
 
                                                     <svg
-                                                        class="-me-0.5 ms-2 size-4"
+                                                        class="ms-2 -me-0.5 size-4"
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         fill="none"
                                                         viewBox="0 0 24 24"
@@ -274,7 +274,7 @@
                 class:block={showingNavigationDropdown}
                 class:hidden={!showingNavigationDropdown}
             >
-                <div class="space-y-1 pb-3 pt-2">
+                <div class="space-y-1 pt-2 pb-3">
                     <ResponsiveNavLink
                         href="/dashboard"
                         active={$page.props.webtend.currentRouteName === 'dashboard'}
@@ -285,7 +285,7 @@
 
                 <!-- Responsive Settings Options -->
                 {#if user}
-                    <div class="border-t border-gray-200 pb-1 pt-4 dark:border-gray-600">
+                    <div class="border-t border-gray-200 pt-4 pb-1 dark:border-gray-600">
                         <div class="flex items-center px-4">
                             {#if $page.props.jetstream.managesProfilePhotos}
                                 <div class="me-3 shrink-0">
@@ -318,7 +318,8 @@
                             {#if $page.props.jetstream.hasApiFeatures}
                                 <ResponsiveNavLink
                                     href="/user/api-tokens"
-                                    active={$page.props.webtend.currentRouteName === 'api-tokens.index'}
+                                    active={$page.props.webtend.currentRouteName ===
+                                        'api-tokens.index'}
                                 >
                                     API Tokens
                                 </ResponsiveNavLink>
@@ -346,7 +347,8 @@
                                 {#if $page.props.jetstream.canCreateTeams}
                                     <ResponsiveNavLink
                                         href="/teams/create"
-                                        active={$page.props.webtend.currentRouteName === 'teams.create'}
+                                        active={$page.props.webtend.currentRouteName ===
+                                            'teams.create'}
                                     >
                                         Create New Team
                                     </ResponsiveNavLink>

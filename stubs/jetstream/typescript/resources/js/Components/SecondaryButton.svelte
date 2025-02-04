@@ -19,7 +19,7 @@
 {:else}
     <button
         {type}
-        class="{baseClasses} transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800 {classes}"
+        class="{baseClasses} transition duration-150 ease-in-out hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800 {classes}"
         on:click={() => dispatch('clicked')}
         data-testid={dataTestId}
     >

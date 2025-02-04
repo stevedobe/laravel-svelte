@@ -35,7 +35,7 @@
 
             {#if hasActions}
                 <div
-                    class="flex items-center justify-end bg-gray-50 px-4 py-3 text-end shadow-sm sm:rounded-bl-md sm:rounded-br-md sm:px-6 dark:bg-gray-800"
+                    class="flex items-center justify-end bg-gray-50 px-4 py-3 text-end shadow-sm sm:rounded-br-md sm:rounded-bl-md sm:px-6 dark:bg-gray-800"
                 >
                     <slot name="actions" />
                 </div>

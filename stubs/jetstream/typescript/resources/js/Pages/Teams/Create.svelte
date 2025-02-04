@@ -5,7 +5,7 @@
 
 <AppLayout title="Create Team">
     <div slot="header" class="contents">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+        <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
             Create Team
         </h2>
     </div>
