@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './bootstrap';
 import '../css/app.css';
 
@@ -10,8 +11,7 @@ createInertiaApp({
         return pages[`./Pages/${name}.svelte`];
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setup({ el, App, props }: { el: Element; App: any; props: any }) {
+    setup({ el, App, props }: { el: any; App: any; props: any }) {
         new App({ target: el, props, hydrate: true });
     },
 

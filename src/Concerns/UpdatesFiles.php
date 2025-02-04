@@ -27,6 +27,7 @@ trait UpdatesFiles
             $this->cleanSsrJs($hasSsr);
             $this->replaceViewsWithSvelte($starterKit, $hasSsr);
             $this->applyFeatureSpecificUpdates($starterKit);
+            $this->removePostcssConfig();
 
             $this->components->info('Required files copied.');
 
@@ -171,8 +172,8 @@ trait UpdatesFiles
         $this->removeLinesContainingString($viteConfigPath, 'import vue from ');
 
         $this->replaceInFile(
-            searchFor: 'laravel({',
-            replaceWith: 'tailwindcss(),'.PHP_EOL.'        laravel({',
+            searchFor: 'vue({',
+            replaceWith: 'tailwindcss(),'.PHP_EOL.'        vue({',
             filePath: $viteConfigPath
         );
 
@@ -183,8 +184,8 @@ trait UpdatesFiles
                     .PHP_EOL.'            compilerOptions: {'
                     .PHP_EOL.'                hydratable: true,'
                     .PHP_EOL.'            },'
-                    .PHP_EOL.'        }),'
-                : 'svelte(),',
+                    .PHP_EOL.'        })'
+                : 'svelte()',
             filePath: $viteConfigPath,
             regex: true
         );
@@ -334,6 +335,14 @@ trait UpdatesFiles
                 $action();
             }
         }
+    }
+
+    /**
+     * Remove postcss.config.js.
+     */
+    protected function removePostcssConfig(): void
+    {
+        $this->filesystem->delete(base_path('postcss.config.js'));
     }
 
     /**

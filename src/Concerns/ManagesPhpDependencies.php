@@ -14,12 +14,10 @@ trait ManagesPhpDependencies
         try {
             $this->components->info('Removing Ziggy...');
             $this->composerPackage('tightenco/ziggy', 'remove');
-            $this->output->writeln('');
             $this->components->info('Ziggy removed.');
 
             $this->components->info('Updating Inertia...');
             $this->composerPackage('inertiajs/inertia-laravel:^2.0', 'require');
-            $this->output->writeln('');
             $this->components->info('Inertia updated.');
 
             return true;

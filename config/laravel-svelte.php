@@ -17,6 +17,7 @@ return [
             'svelte-preprocess' => '^6.0.3',
             'tailwindcss' => '^4.0.0',
             'typescript' => '^5.7.3',
+            'vite' => '^5.0',
         ],
 
         'eslint' => [
