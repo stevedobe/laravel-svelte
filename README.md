@@ -54,6 +54,7 @@ php artisan stevedobe:swap-vue-with-svelte
 -   If you have based your project on Laravel Jetstream and you have installed Cypress, ensure you keep the features in cypress.config.js in sync with config/fortify.php and config/jetstream.php.
 -   If you have based your project on Laravel Jetstream and you have installed Playwright, ensure you keep the features in tests/Playwright/e2e/helpers.ts in sync with config/fortify.php and config/jetstream.php.
 -   If you have installed Cypress, you may need to change the port number of the baseUrl in cypress.config.js. Watch for what port ***php artisan serve*** has provided.
+-   If you have installed Playwright, you may need to run 'npx playwright install'.
 -   If you have installed Playwright, you may need to change the port number of the baseUrl in playwright.config.ts. Watch for what port ***php artisan serve*** has provided.
 
 ## Change log

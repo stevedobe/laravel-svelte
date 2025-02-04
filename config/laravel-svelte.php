@@ -12,6 +12,7 @@ return [
             '@sveltejs/vite-plugin-svelte' => '^3.1.2',
             '@tailwindcss/vite' => '^4.0.1',
             '@tsconfig/svelte' => '^5.0.4',
+            'globals' => '^15.14.0',
             'svelte' => '^4.2.19',
             'svelte-check' => '^4.1.4',
             'svelte-preprocess' => '^6.0.3',

@@ -12,7 +12,7 @@ describe('Logging Out', () => {
         cy.location('pathname').should('eq', '/');
 
         cy.currentUser().then((user) => {
-            expect(user.email).to.be.undefined;
+            return expect(user.email).to.be.undefined;
         });
     });
 
