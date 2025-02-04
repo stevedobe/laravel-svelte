@@ -1,6 +1,6 @@
 <script lang="ts">
     export let forElement: string;
-    export let value: string | undefined;
+    export let value = '';
     export let classes = '';
 </script>
 
