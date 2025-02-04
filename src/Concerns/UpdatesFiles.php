@@ -29,6 +29,7 @@ trait UpdatesFiles
             $this->applyFeatureSpecificUpdates($starterKit);
             $this->removePostcssConfig();
             $this->removeEslintrc();
+            $this->removeTailwindConfig();
 
             $this->components->info('Required files copied.');
 
@@ -353,6 +354,16 @@ trait UpdatesFiles
     {
         if (file_exists(base_path('.eslintrc.cjs'))) {
             $this->filesystem->delete(base_path('.eslintrc.cjs'));
+        }
+    }
+
+    /**
+     * Remove tailwind.config.js.
+     */
+    protected function removeTailwindConfig(): void
+    {
+        if (file_exists(base_path('tailwind.config.js'))) {
+            $this->filesystem->delete(base_path('tailwind.config.js'));
         }
     }
 

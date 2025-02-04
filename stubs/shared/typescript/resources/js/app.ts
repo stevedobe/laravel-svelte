@@ -6,7 +6,9 @@ import { createInertiaApp } from '@inertiajs/svelte';
 
 createInertiaApp({
     resolve: (name: string) => {
-        const pages = import.meta.glob('./Pages/**/*.svelte', { eager: true });
+        const pages = import.meta.glob('./Pages/**/*.svelte', {
+            eager: true,
+        });
 
         return pages[`./Pages/${name}.svelte`];
     },
