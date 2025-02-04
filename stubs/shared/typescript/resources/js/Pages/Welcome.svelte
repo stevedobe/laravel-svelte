@@ -89,13 +89,13 @@
                             <img
                                 src="https://laravel.com/assets/img/welcome/docs-light.svg"
                                 alt="Laravel documentation screenshot"
-                                class="aspect-video h-full w-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
+                                class="aspect-video size-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
                                 on:error={handleImageError}
                             />
                             <img
                                 src="https://laravel.com/assets/img/welcome/docs-dark.svg"
                                 alt="Laravel documentation screenshot"
-                                class="hidden aspect-video h-full w-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
+                                class="hidden aspect-video size-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.25)] dark:block"
                             />
                             <div
                                 class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"
