@@ -56,10 +56,14 @@ return [
         'vue' => [
             '@inertiajs/vue3',
             '@vitejs/plugin-vue',
+            '@vue/eslint-config-prettier',
+            '@vue/eslint-config-typescript',
             '@vue/server-renderer',
             'autoprefixer',
+            'eslint-plugin-vue',
             'postcss',
             'vue',
+            'vue-tsc',
         ],
     ],
 ];
