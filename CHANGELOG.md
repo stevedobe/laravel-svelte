@@ -5,6 +5,13 @@ All notable changes to `Laravel Svelte` will be documented in this file.
 ## Version 1.5.0
 
 ### Added
+-   Breeze 2.3
+-   Update Composer and NPM packages.
+    -   Still need to update to Svelte 5 and Vite 6. Coming soon...
+
+## Version 1.5.0
+
+### Added
 -   Breeze 2.2
 -   Jetstream 5.3
 

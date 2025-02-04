@@ -31,7 +31,7 @@ If you wish to know exactly what this package changes to a Laravel installation,
 
 You may publish Laravel Svelte's configuration file to config/laravel-svelte.php and modify it as needed. I can only think of two reasons why you may want to do this:
 
--   Your Laravel installation is not running Breeze 2.2 or Jetstream 5.3.
+-   Your Laravel installation is not running Breeze 2.3 or Jetstream 5.3.
     -   Laravel Svelte is bound to, and may only work for, specific versions of Breeze and Jetstream. It currently supports the abovementioned versions. If you are running a different version of Breeze or Jetstream, you need to change the **compatibleWith** settings in Laravel Svelte's configuration file. If your version of Breeze or Jetstream does not match the corresponding **compatibleWith** version, the package will throw an exception.
 
 -   You want to control the versions of the installed Node packages. These are listed in the configuration file.
