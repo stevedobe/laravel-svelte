@@ -174,20 +174,16 @@ trait UpdatesFiles
         $this->removeLinesContainingString($viteConfigPath, 'import vue from ');
 
         $this->replaceInFile(
-            searchFor: 'vue({',
-            replaceWith: 'tailwindcss(),'.PHP_EOL.'        vue({',
-            filePath: $viteConfigPath
-        );
-
-        $this->replaceInFile(
             searchFor: '/vue\(\{[\s\S]+?\}\)/',
             replaceWith: $hasSsr
                 ? 'svelte({'
                     .PHP_EOL.'            compilerOptions: {'
                     .PHP_EOL.'                hydratable: true,'
                     .PHP_EOL.'            },'
-                    .PHP_EOL.'        })'
-                : 'svelte()',
+                    .PHP_EOL.'        }),'
+                    .PHP_EOL.'        tailwindcss()'
+                : 'svelte(),'
+                    .PHP_EOL.'        tailwindcss()',
             filePath: $viteConfigPath,
             regex: true
         );

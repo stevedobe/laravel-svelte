@@ -2,7 +2,13 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
-## Version 1.5.0
+## Version 1.6.1
+
+### Fixed
+
+-   tailwindcss() must come after svelte() in vite.config.js.
+
+## Version 1.6.0
 
 ### Added
 -   Breeze 2.3
