@@ -1,4 +1,4 @@
-<script labg="ts">
+<script lang="ts">
     import { inertia, page, useForm } from '@inertiajs/svelte';
     import AuthenticationCard from '@/Components/AuthenticationCard.svelte';
     import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.svelte';
