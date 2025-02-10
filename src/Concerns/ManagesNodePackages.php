@@ -19,8 +19,8 @@ trait ManagesNodePackages
 
             $packageJson = $this->readPackageJson($packagePath);
 
+            $packageJson['devDependencies'] = $this->removeUnwantedNodePackages($packageJson['devDependencies']);
             $packageJson['devDependencies'] = $this->addSvelteNodePackages($packageJson['devDependencies']);
-            $packageJson['devDependencies'] = $this->removeVueNodePackages($packageJson['devDependencies']);
             $packageJson['scripts'] = $this->addNodeScripts($packageJson['scripts']);
 
             $this->writePackageJson($packagePath, $packageJson);
@@ -122,14 +122,14 @@ trait ManagesNodePackages
     }
 
     /**
-     * Remove the Vue packages.
+     * Remove unwanted node packages.
      *
      * @param  array<string, string>  $devDependencies
      * @return array<string, string>
      */
-    protected function removeVueNodePackages(array $devDependencies): array
+    protected function removeUnwantedNodePackages(array $devDependencies): array
     {
-        $vuePackages = (array) config('laravel-svelte.dependencies.vue', []);
+        $vuePackages = (array) config('laravel-svelte.dependencies.unwanted', []);
 
         foreach ($vuePackages as $vuePackage) {
             if (isset($devDependencies[$vuePackage])) {

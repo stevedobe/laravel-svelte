@@ -117,7 +117,7 @@
                                                 {#if user.all_teams.length > 1}
                                                     <div
                                                         class="border-t border-gray-200 dark:border-gray-600"
-                                                    />
+                                                    ></div>
 
                                                     <div
                                                         class="block px-4 py-2 text-xs text-gray-400"
@@ -219,7 +219,7 @@
 
                                         <div
                                             class="border-t border-gray-200 dark:border-gray-600"
-                                        />
+                                        ></div>
 
                                         <!-- Authentication -->
 
@@ -238,6 +238,7 @@
                             class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
                             on:click={() =>
                                 (showingNavigationDropdown = !showingNavigationDropdown)}
+                            aria-label="Menu"
                             data-testid="user-menu"
                         >
                             <svg
@@ -332,7 +333,7 @@
 
                             <!-- Team Management -->
                             {#if $page.props.jetstream.hasTeamFeatures && user.current_team}
-                                <div class="border-t border-gray-200 dark:border-gray-600" />
+                                <div class="border-t border-gray-200 dark:border-gray-600"></div>
 
                                 <div class="block px-4 py-2 text-xs text-gray-400">Manage Team</div>
 
@@ -356,7 +357,9 @@
 
                                 <!-- Team Switcher -->
                                 {#if user.all_teams.length > 1}
-                                    <div class="border-t border-gray-200 dark:border-gray-600" />
+                                    <div
+                                        class="border-t border-gray-200 dark:border-gray-600"
+                                    ></div>
 
                                     <div class="block px-4 py-2 text-xs text-gray-400">
                                         Switch Teams

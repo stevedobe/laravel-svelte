@@ -119,7 +119,7 @@
                     <span
                         class="block size-20 rounded-full bg-cover bg-center bg-no-repeat"
                         style={`background-image: url('${String(photoPreview)}');`}
-                    />
+                    ></span>
                 </div>
 
                 <SecondaryButton on:clicked={selectNewPhoto} classes="me-2 mt-2">

@@ -2,6 +2,18 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.7.0
+
+### Added
+
+-   Updated NPM packages to Svelte 5 and Vite 6. The Svelte files remain with v4 syntax and will be migrated soon.
+
+## Version 1.6.2
+
+### Fixed
+
+-   Spelling mistake lang="ts"
+
 ## Version 1.6.1
 
 ### Fixed

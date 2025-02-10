@@ -31,7 +31,7 @@
         on:keydown={() => (open = false)}
         role="button"
         tabindex="0"
-    />
+    ></div>
 
     {#if open}
         <div in:fade={{ duration: 75 }} out:fade={{ duration: 200 }}>

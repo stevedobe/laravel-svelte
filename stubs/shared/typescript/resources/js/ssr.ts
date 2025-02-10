@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createInertiaApp } from '@inertiajs/svelte';
 import createServer from '@inertiajs/svelte/server';
+import { render } from 'svelte/server';
 
 createServer((page: any) =>
     createInertiaApp({
@@ -15,7 +16,7 @@ createServer((page: any) =>
         },
 
         setup({ App, props }: { App: any; props: any }) {
-            return App.render(props);
+            return render(App, { props });
         },
 
         progress: {

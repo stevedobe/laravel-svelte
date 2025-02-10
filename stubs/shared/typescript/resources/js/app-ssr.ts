@@ -3,6 +3,7 @@ import '../css/app.css';
 import './bootstrap';
 
 import { createInertiaApp } from '@inertiajs/svelte';
+import { hydrate, mount } from 'svelte';
 
 createInertiaApp({
     resolve: (name: string) => {
@@ -14,7 +15,11 @@ createInertiaApp({
     },
 
     setup({ el, App, props }: { el: any; App: any; props: any }) {
-        new App({ target: el, props, hydrate: true });
+        if (el.dataset.serverRendered === 'true') {
+            hydrate(App, { target: el, props });
+        } else {
+            mount(App, { target: el, props });
+        }
     },
 
     progress: {

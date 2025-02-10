@@ -3,6 +3,7 @@ import '../css/app.css';
 import './bootstrap';
 
 import { createInertiaApp } from '@inertiajs/svelte';
+import { mount } from 'svelte';
 
 createInertiaApp({
     resolve: (name: string) => {
@@ -14,7 +15,7 @@ createInertiaApp({
     },
 
     setup({ el, App, props }: { el: any; App: any; props: any }) {
-        new App({ target: el, props });
+        mount(App, { target: el, props });
     },
 
     progress: {

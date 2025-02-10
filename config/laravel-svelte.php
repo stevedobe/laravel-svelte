@@ -9,16 +9,15 @@ return [
         // We install Svelte and Typescript packages regardless of the options chosen.
         'base' => [
             '@inertiajs/svelte' => '^2.0.3',
-            '@sveltejs/vite-plugin-svelte' => '^3.1.2',
+            '@sveltejs/vite-plugin-svelte' => '^5.0.3',
             '@tailwindcss/vite' => '^4.0.1',
             '@tsconfig/svelte' => '^5.0.4',
             'globals' => '^15.14.0',
-            'svelte' => '^4.2.19',
+            'svelte' => '^5.19.3',
             'svelte-check' => '^4.1.4',
             'svelte-preprocess' => '^6.0.3',
             'tailwindcss' => '^4.0.0',
             'typescript' => '^5.7.3',
-            'vite' => '^5.0',
         ],
 
         'eslint' => [
@@ -54,8 +53,9 @@ return [
             '@playwright/test' => '^1.50.0',
         ],
 
-        'vue' => [
+        'unwanted' => [
             '@inertiajs/vue3',
+            '@rushstack/eslint-patch',
             '@vitejs/plugin-vue',
             '@vue/eslint-config-prettier',
             '@vue/eslint-config-typescript',
@@ -63,6 +63,7 @@ return [
             'autoprefixer',
             'eslint-plugin-vue',
             'postcss',
+            'prettier-plugin-organize-imports',
             'vue',
             'vue-tsc',
         ],
