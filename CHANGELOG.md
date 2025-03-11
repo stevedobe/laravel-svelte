@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.7.1
+
+### Added
+
+-   Bumped illuminate/support
+
 ## Version 1.7.0
 
 ### Added
