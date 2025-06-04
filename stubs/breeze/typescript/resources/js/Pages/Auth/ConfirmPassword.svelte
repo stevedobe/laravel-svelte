@@ -11,7 +11,9 @@
         password: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/confirm-password', {
             onFinish: () => {
                 $form.reset();
@@ -27,7 +29,7 @@
         This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="password" value="Password" />
             <TextInput

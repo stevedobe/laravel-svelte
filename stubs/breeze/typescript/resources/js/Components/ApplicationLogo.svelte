@@ -1,5 +1,9 @@
 <script lang="ts">
-    export let classes = '';
+    interface Props {
+        classes?: string;
+    }
+
+    let { classes = '' }: Props = $props();
 </script>
 
 <svg viewBox="0 0 316 316" xmlns="http://www.w3.org/2000/svg" class={classes}>

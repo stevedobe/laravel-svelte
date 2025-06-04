@@ -8,13 +8,19 @@
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let status: string;
+    interface Props {
+        status: string;
+    }
+
+    let { status }: Props = $props();
 
     const form = useForm({
         email: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/forgot-password');
     };
 </script>
@@ -22,9 +28,11 @@
 <Helmet title="Forgot Password" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         Forgot your password? No problem. Just let us know your email address and we will email you
@@ -37,7 +45,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="email" value="Email" />
             <TextInput

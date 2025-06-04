@@ -6,17 +6,23 @@
     import UpdateTeamNameForm from '@/Pages/Teams/Partials/UpdateTeamNameForm.svelte';
     import type { Permissions, Role, Team } from '@/Types';
 
-    export let team: Team;
-    export let availableRoles: Role[];
-    export let permissions: Permissions;
+    interface Props {
+        team: Team;
+        availableRoles: Role[];
+        permissions: Permissions;
+    }
+
+    let { team, availableRoles, permissions }: Props = $props();
 </script>
 
 <AppLayout title="Team Settings">
-    <div slot="header" class="contents">
-        <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
-            Team Settings
-        </h2>
-    </div>
+    {#snippet appLayoutheader()}
+        <div class="contents">
+            <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
+                Team Settings
+            </h2>
+        </div>
+    {/snippet}
 
     <div>
         <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">

@@ -8,10 +8,14 @@
     import SecondaryButton from '@/Components/SecondaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let classes = '';
+    interface Props {
+        classes?: string;
+    }
 
-    let confirmingUserDeletion = false;
-    let passwordInput: TextInput;
+    let { classes = '' }: Props = $props();
+
+    let confirmingUserDeletion = $state(false);
+    let passwordInput: TextInput | undefined = $state();
 
     const form = useForm({
         password: '',
@@ -23,7 +27,11 @@
         tick().then(() => passwordInput?.focus());
     };
 
-    const deleteUser = () => {
+    const deleteUser = (event?: KeyboardEvent) => {
+        // If the event object is passed (e.g., from TextInput's 'entered' prop),
+        // stop it from bubbling up to parent elements like the modal backdrop.
+        event?.stopPropagation();
+
         $form.delete('/profile', {
             preserveScroll: true,
             onSuccess: () => closeModal(),
@@ -53,11 +61,11 @@
         </p>
     </header>
 
-    <DangerButton on:clicked={confirmUserDeletion} dataTestId="delete-account-button">
+    <DangerButton clicked={confirmUserDeletion} dataTestId="delete-account-button">
         Delete Account
     </DangerButton>
 
-    <Modal show={confirmingUserDeletion} on:closed={closeModal}>
+    <Modal show={confirmingUserDeletion} closed={closeModal}>
         <div class="p-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Are you sure you want to delete your account?
@@ -69,31 +77,44 @@
                 your account.
             </p>
 
-            <div class="mt-6">
-                <InputLabel forElement="password" value="Password" classes="sr-only" />
+            <form
+                onsubmit={(event: SubmitEvent) => {
+                    event.preventDefault();
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    bind:this={passwordInput}
-                    bind:value={$form.password}
-                    error={$form.errors.password}
-                    classes="mt-1 block w-3/4"
-                    placeholder="Password"
-                    on:entered={deleteUser}
-                    data-testid="delete-user-form-password"
-                />
+                    deleteUser();
+                }}
+            >
+                <div class="mt-6">
+                    <InputLabel forElement="password" value="Password" classes="sr-only" />
 
-                <InputError message={$form.errors.password} classes="mt-2" />
-            </div>
+                    <TextInput
+                        id="password"
+                        type="password"
+                        bind:this={passwordInput}
+                        bind:value={$form.password}
+                        error={$form.errors.password}
+                        classes="mt-1 block w-3/4"
+                        placeholder="Password"
+                        entered={deleteUser}
+                        dataTestId="delete-user-form-password"
+                    />
 
-            <div class="mt-6 flex justify-end">
-                <SecondaryButton on:clicked={closeModal}>Cancel</SecondaryButton>
+                    <InputError message={$form.errors.password} classes="mt-2" />
+                </div>
 
-                <DangerButton on:clicked={deleteUser} disabled={$form.processing} classes="ms-3">
-                    Delete Account
-                </DangerButton>
-            </div>
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton clicked={closeModal}>Cancel</SecondaryButton>
+
+                    <DangerButton
+                        type="submit"
+                        clicked={deleteUser}
+                        disabled={$form.processing}
+                        classes="ms-3"
+                    >
+                        Delete Account
+                    </DangerButton>
+                </div>
+            </form>
         </div>
     </Modal>
 </section>

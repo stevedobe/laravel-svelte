@@ -5,18 +5,24 @@
     import UpdatePasswordForm from './Partials/UpdatePasswordForm.svelte';
     import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.svelte';
 
-    export let mustVerifyEmail: boolean;
-    export let status: string;
+    interface Props {
+        mustVerifyEmail: boolean;
+        status: string;
+    }
+
+    let { mustVerifyEmail, status }: Props = $props();
 </script>
 
 <Helmet title="Profile" />
 
 <AuthenticatedLayout>
-    <div slot="header" class="contents">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-            Profile
-        </h2>
-    </div>
+    {#snippet authenticatedLayoutHeader()}
+        <div class="contents">
+            <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
+                Profile
+            </h2>
+        </div>
+    {/snippet}
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">

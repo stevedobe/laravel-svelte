@@ -1,27 +1,66 @@
 <script lang="ts">
-    import { onMount, createEventDispatcher } from 'svelte';
+    import { onMount } from 'svelte';
 
-    export let value: string | number | null;
-    export let error = '';
-    export let classes = '';
-    export let autofocus = false;
+    interface Props {
+        id?: string;
+        name?: string;
+        type?: string;
+        value: string | number | null;
+        autocomplete?: HTMLInputElement['autocomplete'];
+        autofocus?: boolean;
+        disabled?: boolean;
+        required?: boolean;
+        error?: string;
+        classes?: string;
+        dataTestId?: string;
+        placeholder?: string;
+        inputmode?:
+            | 'email'
+            | 'tel'
+            | 'text'
+            | 'search'
+            | 'url'
+            | 'none'
+            | 'numeric'
+            | 'decimal'
+            | null
+            | undefined;
+        entered?: () => void;
+    }
 
-    const dispatch = createEventDispatcher();
+    let {
+        id = '',
+        name = '',
+        type = 'text',
+        value = $bindable(),
+        autocomplete = 'off',
+        autofocus = false,
+        disabled = false,
+        required = false,
+        error = '',
+        classes = '',
+        dataTestId = '',
+        placeholder = '',
+        inputmode = undefined,
+        entered = () => {
+            // Do nothing by default
+        },
+    }: Props = $props();
 
-    let input: HTMLInputElement;
+    let input: HTMLInputElement | undefined = $state();
 
-    const handleInput = (e: Event): void => {
-        value = (e.target as HTMLInputElement).value;
+    const handleInput = (event: Event): void => {
+        value = (event.target as HTMLInputElement).value;
     };
 
-    const onKeyUp = (e: KeyboardEvent): void => {
-        if (e.key === 'Enter') {
-            dispatch('entered');
+    const onKeyUp = (event: KeyboardEvent): void => {
+        if (event.key === 'Enter') {
+            entered?.();
         }
     };
 
     export function focus() {
-        input.focus();
+        input?.focus();
     }
 
     onMount(() => {
@@ -32,11 +71,19 @@
 </script>
 
 <input
+    {id}
+    {name}
+    {type}
     bind:this={input}
     {value}
+    {autocomplete}
+    {disabled}
+    {required}
+    {placeholder}
+    {inputmode}
     class="rounded-md border-gray-300 shadow-xs focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600 {classes}"
     class:border-red-600={error}
-    on:input={handleInput}
-    on:keyup={onKeyUp}
-    {...$$restProps}
+    oninput={handleInput}
+    onkeyup={onKeyUp}
+    data-testid={dataTestId}
 />

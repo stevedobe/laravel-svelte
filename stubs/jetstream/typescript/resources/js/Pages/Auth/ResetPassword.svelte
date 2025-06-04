@@ -8,8 +8,12 @@
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let email: string;
-    export let token: string;
+    interface Props {
+        email: string;
+        token: string;
+    }
+
+    let { email, token }: Props = $props();
 
     const form = useForm({
         token: token,
@@ -18,7 +22,9 @@
         password_confirmation: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/reset-password', {
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
@@ -28,11 +34,13 @@
 <Helmet title="Reset Password" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="email" value="Email" />
             <TextInput

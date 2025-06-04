@@ -1,6 +1,10 @@
 <script lang="ts">
-    export let checkboxes: string[];
-    export let group: string[] = [];
+    interface Props {
+        checkboxes: string[];
+        group?: string[];
+    }
+
+    let { checkboxes, group = $bindable([]) }: Props = $props();
 </script>
 
 {#each checkboxes as checkbox}

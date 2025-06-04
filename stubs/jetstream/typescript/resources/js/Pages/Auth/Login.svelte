@@ -9,8 +9,12 @@
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let canResetPassword: boolean;
-    export let status: string;
+    interface Props {
+        canResetPassword: boolean;
+        status: string;
+    }
+
+    let { canResetPassword, status }: Props = $props();
 
     interface LoginForm {
         email: string;
@@ -24,7 +28,9 @@
         remember: false,
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form
             .transform((data: LoginForm) => ({
                 ...data,
@@ -39,9 +45,11 @@
 <Helmet title="Log in" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
     {#if status}
         <div class="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
@@ -49,7 +57,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="email" value="Email" />
             <TextInput

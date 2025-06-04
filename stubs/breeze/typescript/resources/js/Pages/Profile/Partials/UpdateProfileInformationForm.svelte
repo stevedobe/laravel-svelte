@@ -6,17 +6,26 @@
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let mustVerifyEmail: boolean;
-    export let status: string;
-    export let classes = '';
+    interface Props {
+        mustVerifyEmail: boolean;
+        status: string;
+        classes?: string;
+    }
 
-    let { user } = $page.props.auth;
-    $: user = $page.props.auth.user;
+    let { mustVerifyEmail, status, classes = '' }: Props = $props();
+
+    let user = $page.props.auth.user;
 
     const form = useForm({
         name: user.name,
         email: user.email,
     });
+
+    const submit = (event: Event) => {
+        event.preventDefault();
+
+        $form.patch('/profile');
+    };
 </script>
 
 <section class={classes}>
@@ -28,12 +37,7 @@
         </p>
     </header>
 
-    <form
-        on:submit|preventDefault={() => {
-            $form.patch('/profile');
-        }}
-        class="mt-6 space-y-6"
-    >
+    <form onsubmit={submit} class="mt-6 space-y-6">
         <div>
             <InputLabel forElement="name" value="Name" />
 
@@ -77,7 +81,7 @@
                             href: '/email/verification-notification',
                             method: 'post',
                         }}
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                     >
                         Click here to re-send the verification email.
                     </button>

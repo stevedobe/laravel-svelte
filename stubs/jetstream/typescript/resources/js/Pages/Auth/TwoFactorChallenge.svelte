@@ -14,25 +14,29 @@
         recovery_code: '',
     });
 
-    let recovery = false;
-    let recoveryCodeInput: TextInput;
-    let codeInput: TextInput;
+    let recovery = $state(false);
+    let recoveryCodeInput: TextInput | undefined = $state();
+    let codeInput: TextInput | undefined = $state();
 
-    const toggleRecovery = async () => {
+    const toggleRecovery = async (event: Event) => {
+        event.preventDefault();
+
         recovery = !recovery;
 
         await tick();
 
         if (recovery) {
-            recoveryCodeInput.focus();
+            recoveryCodeInput?.focus();
             $form.code = '';
         } else {
-            codeInput.focus();
+            codeInput?.focus();
             $form.recovery_code = '';
         }
     };
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/two-factor-challenge');
     };
 </script>
@@ -40,9 +44,11 @@
 <Helmet title="Two-factor Confirmation" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {#if !recovery}
@@ -53,7 +59,7 @@
         {/if}
     </div>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         {#if !recovery}
             <div>
                 <InputLabel forElement="code" value="Code" />
@@ -88,7 +94,7 @@
             <button
                 type="button"
                 class="cursor-pointer text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400"
-                on:click|preventDefault={toggleRecovery}
+                onclick={toggleRecovery}
             >
                 {#if !recovery}
                     Use a recovery code

@@ -2,10 +2,14 @@
     import { inertia, page } from '@inertiajs/svelte';
     import Helmet from '@/Components/Helmet.svelte';
 
-    export let canLogin: boolean;
-    export let canRegister: boolean;
-    export let laravelVersion: string;
-    export let phpVersion: string;
+    interface Props {
+        canLogin: boolean;
+        canRegister: boolean;
+        laravelVersion: string;
+        phpVersion: string;
+    }
+
+    let { canLogin, canRegister, laravelVersion, phpVersion }: Props = $props();
 
     function handleImageError() {
         document.getElementById('screenshot-container')?.classList.add('!hidden');
@@ -80,7 +84,7 @@
                     <a
                         href="https://laravel.com/docs"
                         id="docs-card"
-                        class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 ring-1 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                        class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                     >
                         <div
                             id="screenshot-container"
@@ -90,7 +94,7 @@
                                 src="https://laravel.com/assets/img/welcome/docs-light.svg"
                                 alt="Laravel documentation screenshot"
                                 class="aspect-video size-full flex-1 rounded-[10px] object-cover object-top drop-shadow-[0px_4px_34px_rgba(0,0,0,0.06)] dark:hidden"
-                                on:error={handleImageError}
+                                onerror={handleImageError}
                             />
                             <img
                                 src="https://laravel.com/assets/img/welcome/docs-dark.svg"
@@ -156,7 +160,7 @@
 
                     <a
                         href="https://laracasts.com"
-                        class="flex items-start gap-4 rounded-lg bg-white p-6 ring-1 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                        class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                     >
                         <div
                             class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16"
@@ -204,7 +208,7 @@
 
                     <a
                         href="https://laravel-news.com"
-                        class="flex items-start gap-4 rounded-lg bg-white p-6 ring-1 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
+                        class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-hidden focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
                     >
                         <div
                             class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16"
@@ -257,7 +261,7 @@
                     </a>
 
                     <div
-                        class="flex items-start gap-4 rounded-lg bg-white p-6 ring-1 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-white/[0.05] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800"
+                        class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800"
                     >
                         <div
                             class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16"

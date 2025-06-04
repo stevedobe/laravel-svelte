@@ -1,7 +1,14 @@
 <script lang="ts">
-    export let forElement: string;
-    export let value = '';
-    export let classes = '';
+    import type { Snippet } from 'svelte';
+
+    interface Props {
+        forElement: string;
+        value?: string;
+        classes?: string;
+        children?: Snippet;
+    }
+
+    let { forElement, value = '', classes = '', children }: Props = $props();
 </script>
 
 <label
@@ -11,6 +18,6 @@
     {#if value}
         <span>{value}</span>
     {:else}
-        <span><slot /></span>
+        <span>{@render children?.()}</span>
     {/if}
 </label>

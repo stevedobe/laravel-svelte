@@ -7,13 +7,19 @@
     import TextInput from '@/Components/TextInput.svelte';
     import GuestLayout from '@/Layouts/GuestLayout.svelte';
 
-    export let status: string;
+    interface Props {
+        status: string;
+    }
+
+    let { status }: Props = $props();
 
     const form = useForm({
         email: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/forgot-password');
     };
 </script>
@@ -32,7 +38,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="email" value="Email" />
 

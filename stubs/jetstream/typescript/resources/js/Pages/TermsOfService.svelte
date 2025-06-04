@@ -2,9 +2,13 @@
     import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.svelte';
     import Helmet from '@/Components/Helmet.svelte';
 
-    export let terms: string;
-
     /* eslint svelte/no-at-html-tags: "off" */
+
+    interface Props {
+        terms: string;
+    }
+
+    let { terms }: Props = $props();
 </script>
 
 <Helmet title="Terms of Service" />

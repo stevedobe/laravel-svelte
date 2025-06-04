@@ -7,21 +7,29 @@
     import Helmet from '@/Components/Helmet.svelte';
     import NavLink from '@/Components/NavLink.svelte';
     import ResponsiveNavLink from '@/Components/ResponsiveNavLink.svelte';
+    import type { Snippet } from 'svelte';
     import type { Team } from '@/Types';
 
-    export let title = '';
-    export let description = '';
+    interface Props {
+        title?: string;
+        description?: string;
+        appLayoutheader?: Snippet;
+        children?: Snippet;
+    }
 
-    let { user } = $page.props.auth;
-    $: user = $page.props.auth.user;
+    let { title = '', description = '', appLayoutheader, children }: Props = $props();
 
-    let showingNavigationDropdown = false;
+    let user = $page.props.auth.user;
 
-    const switchToTeam = (event: { detail: { team: Team } }) => {
+    let showingNavigationDropdown = $state(false);
+
+    const switchToTeam = (event: Event, team: Team) => {
+        event.preventDefault();
+
         router.put(
             '/current-team',
             {
-                team_id: event.detail.team.id,
+                team_id: team.id,
             },
             {
                 preserveState: false,
@@ -29,7 +37,9 @@
         );
     };
 
-    const logout = () => {
+    const logout = (event: Event) => {
+        event.preventDefault();
+
         router.post('/logout');
     };
 </script>
@@ -69,95 +79,102 @@
                                 <!-- Teams Dropdown -->
                                 {#if $page.props.jetstream.hasTeamFeatures && user.current_team}
                                     <Dropdown width={60}>
-                                        <div slot="trigger" class="contents">
-                                            <span class="inline-flex rounded-md">
-                                                <button
-                                                    type="button"
-                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
-                                                >
-                                                    {user.current_team.name}
-
-                                                    <svg
-                                                        class="ms-2 -me-0.5 size-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1.5"
-                                                        stroke="currentColor"
+                                        {#snippet dropdownTrigger()}
+                                            <div class="contents">
+                                                <span class="inline-flex rounded-md">
+                                                    <button
+                                                        type="button"
+                                                        class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
                                                     >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
-                                        </div>
+                                                        {user.current_team.name}
 
-                                        <div slot="content" class="contents">
-                                            <div class="w-60">
-                                                <!-- Team Management -->
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Manage Team
-                                                </div>
+                                                        <svg
+                                                            class="ms-2 -me-0.5 size-4"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        {/snippet}
 
-                                                <!-- Team Settings -->
-                                                <DropdownLink href="/teams/{user.current_team.id}">
-                                                    Team Settings
-                                                </DropdownLink>
-
-                                                {#if $page.props.jetstream.canCreateTeams}
-                                                    <DropdownLink href="/teams/create">
-                                                        Create New Team
-                                                    </DropdownLink>
-                                                {/if}
-
-                                                <!-- Team Switcher -->
-                                                {#if user.all_teams.length > 1}
-                                                    <div
-                                                        class="border-t border-gray-200 dark:border-gray-600"
-                                                    ></div>
-
+                                        {#snippet dropdownContent()}
+                                            <div class="contents">
+                                                <div class="w-60">
+                                                    <!-- Team Management -->
                                                     <div
                                                         class="block px-4 py-2 text-xs text-gray-400"
                                                     >
-                                                        Switch Teams
+                                                        Manage Team
                                                     </div>
 
-                                                    {#each user.all_teams as team (team.id)}
-                                                        <form
-                                                            on:submit|preventDefault={() => {
-                                                                switchToTeam(team);
-                                                            }}
-                                                        >
-                                                            <DropdownLink as="button">
-                                                                <div class="flex items-center">
-                                                                    {#if team.id === user.current_team_id}
-                                                                        <svg
-                                                                            class="me-2 size-5 text-green-400"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none"
-                                                                            viewBox="0 0 24 24"
-                                                                            stroke-width="1.5"
-                                                                            stroke="currentColor"
-                                                                        >
-                                                                            <path
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                            />
-                                                                        </svg>
-                                                                    {/if}
+                                                    <!-- Team Settings -->
+                                                    <DropdownLink
+                                                        href="/teams/{user.current_team.id}"
+                                                    >
+                                                        Team Settings
+                                                    </DropdownLink>
 
-                                                                    <div>{team.name}</div>
-                                                                </div>
-                                                            </DropdownLink>
-                                                        </form>
-                                                    {/each}
-                                                {/if}
+                                                    {#if $page.props.jetstream.canCreateTeams}
+                                                        <DropdownLink href="/teams/create">
+                                                            Create New Team
+                                                        </DropdownLink>
+                                                    {/if}
+
+                                                    <!-- Team Switcher -->
+                                                    {#if user.all_teams.length > 1}
+                                                        <div
+                                                            class="border-t border-gray-200 dark:border-gray-600"
+                                                        ></div>
+
+                                                        <div
+                                                            class="block px-4 py-2 text-xs text-gray-400"
+                                                        >
+                                                            Switch Teams
+                                                        </div>
+
+                                                        {#each user.all_teams as team (team.id)}
+                                                            <form
+                                                                onsubmit={(event: Event) =>
+                                                                    switchToTeam(event, team)}
+                                                            >
+                                                                <DropdownLink as="button">
+                                                                    <div class="flex items-center">
+                                                                        {#if team.id === user.current_team_id}
+                                                                            <svg
+                                                                                class="me-2 size-5 text-green-400"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                fill="none"
+                                                                                viewBox="0 0 24 24"
+                                                                                stroke-width="1.5"
+                                                                                stroke="currentColor"
+                                                                            >
+                                                                                <path
+                                                                                    stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                                />
+                                                                            </svg>
+                                                                        {/if}
+
+                                                                        <div>{team.name}</div>
+                                                                    </div>
+                                                                </DropdownLink>
+                                                            </form>
+                                                        {/each}
+                                                    {/if}
+                                                </div>
                                             </div>
-                                        </div>
+                                        {/snippet}
                                     </Dropdown>
                                 {/if}
                             </div>
@@ -165,68 +182,73 @@
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3" data-testid="user-menu">
                                 <Dropdown width={48}>
-                                    <div slot="trigger" class="contents">
-                                        {#if $page.props.jetstream.managesProfilePhotos}
-                                            <button
-                                                class="flex rounded-full border-2 border-transparent text-sm transition focus:border-gray-300 focus:outline-none"
-                                            >
-                                                <img
-                                                    src={user.profile_photo_url}
-                                                    alt={user.name}
-                                                    class="size-8 rounded-full object-cover"
-                                                />
-                                            </button>
-                                        {:else}
-                                            <span class="inline-flex rounded-md">
+                                    {#snippet dropdownTrigger()}
+                                        <div class="contents">
+                                            {#if $page.props.jetstream.managesProfilePhotos}
                                                 <button
-                                                    type="button"
-                                                    class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
+                                                    class="flex rounded-full border-2 border-transparent text-sm transition focus:border-gray-300 focus:outline-none"
                                                 >
-                                                    {user.name}
-
-                                                    <svg
-                                                        class="ms-2 -me-0.5 size-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1.5"
-                                                        stroke="currentColor"
-                                                    >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                                        />
-                                                    </svg>
+                                                    <img
+                                                        src={user.profile_photo_url}
+                                                        alt={user.name}
+                                                        class="size-8 rounded-full object-cover"
+                                                    />
                                                 </button>
-                                            </span>
-                                        {/if}
-                                    </div>
+                                            {:else}
+                                                <span class="inline-flex rounded-md">
+                                                    <button
+                                                        type="button"
+                                                        class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm leading-4 font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:bg-gray-50 focus:outline-none active:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:bg-gray-700 dark:active:bg-gray-700"
+                                                    >
+                                                        {user.name}
 
-                                    <div slot="content" class="contents">
-                                        <!-- Account Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
+                                                        <svg
+                                                            class="ms-2 -me-0.5 size-4"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            stroke-width="1.5"
+                                                            stroke="currentColor"
+                                                        >
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </span>
+                                            {/if}
                                         </div>
+                                    {/snippet}
 
-                                        <DropdownLink href="/user/profile">Profile</DropdownLink>
+                                    {#snippet dropdownContent()}
+                                        <div class="contents">
+                                            <!-- Account Management -->
+                                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                                Manage Account
+                                            </div>
 
-                                        {#if $page.props.jetstream.hasApiFeatures}
-                                            <DropdownLink href="/user/api-tokens">
-                                                API Tokens
-                                            </DropdownLink>
-                                        {/if}
+                                            <DropdownLink href="/user/profile">Profile</DropdownLink
+                                            >
 
-                                        <div
-                                            class="border-t border-gray-200 dark:border-gray-600"
-                                        ></div>
+                                            {#if $page.props.jetstream.hasApiFeatures}
+                                                <DropdownLink href="/user/api-tokens">
+                                                    API Tokens
+                                                </DropdownLink>
+                                            {/if}
 
-                                        <!-- Authentication -->
+                                            <div
+                                                class="border-t border-gray-200 dark:border-gray-600"
+                                            ></div>
 
-                                        <form on:submit|preventDefault={logout}>
-                                            <DropdownLink as="button">Log Out</DropdownLink>
-                                        </form>
-                                    </div>
+                                            <!-- Authentication -->
+
+                                            <form onsubmit={logout}>
+                                                <DropdownLink as="button">Log Out</DropdownLink>
+                                            </form>
+                                        </div>
+                                    {/snippet}
                                 </Dropdown>
                             </div>
                         </div>
@@ -236,8 +258,7 @@
                     <div class="-me-2 flex items-center sm:hidden">
                         <button
                             class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-900 dark:hover:text-gray-400 dark:focus:bg-gray-900 dark:focus:text-gray-400"
-                            on:click={() =>
-                                (showingNavigationDropdown = !showingNavigationDropdown)}
+                            onclick={() => (showingNavigationDropdown = !showingNavigationDropdown)}
                             aria-label="Menu"
                             data-testid="user-menu"
                         >
@@ -327,7 +348,7 @@
                             {/if}
 
                             <!-- Authentication -->
-                            <form on:submit|preventDefault={logout}>
+                            <form onsubmit={logout}>
                                 <ResponsiveNavLink as="button">Log Out</ResponsiveNavLink>
                             </form>
 
@@ -367,9 +388,7 @@
 
                                     {#each user.all_teams as team (team.id)}
                                         <form
-                                            on:submit|preventDefault={() => {
-                                                switchToTeam(team);
-                                            }}
+                                            onsubmit={(event: Event) => switchToTeam(event, team)}
                                         >
                                             <ResponsiveNavLink as="button">
                                                 <div class="flex items-center">
@@ -403,17 +422,17 @@
         </nav>
 
         <!-- Page Heading -->
-        {#if $$slots.header}
+        {#if appLayoutheader}
             <header class="bg-white shadow-sm dark:bg-gray-800">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                    {@render appLayoutheader?.()}
                 </div>
             </header>
         {/if}
 
         <!-- Page Content -->
         <main>
-            <slot />
+            {@render children?.()}
         </main>
     </div>
 </div>

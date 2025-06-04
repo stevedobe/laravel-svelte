@@ -5,23 +5,31 @@
     import Helmet from '@/Components/Helmet.svelte';
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
 
-    export let status: string;
+    interface Props {
+        status: string;
+    }
+
+    let { status }: Props = $props();
 
     const form = useForm({});
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/email/verification-notification');
     };
 
-    $: verificationLinkSent = status === 'verification-link-sent';
+    let verificationLinkSent = $derived(status === 'verification-link-sent');
 </script>
 
 <Helmet title="Email Verification" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         Before continuing, could you verify your email address by clicking on the link we just
@@ -35,7 +43,7 @@
         </div>
     {/if}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div class="mt-4 flex items-center justify-between">
             <PrimaryButton disabled={$form.processing}>Resend Verification Email</PrimaryButton>
 

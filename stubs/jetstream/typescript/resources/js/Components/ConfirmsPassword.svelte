@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher, tick } from 'svelte';
+    import { tick } from 'svelte';
     import { useForm } from '@inertiajs/svelte';
     import axios from 'axios';
     import DialogModal from './DialogModal.svelte';
@@ -7,12 +7,25 @@
     import PrimaryButton from './PrimaryButton.svelte';
     import SecondaryButton from './SecondaryButton.svelte';
     import TextInput from './TextInput.svelte';
+    import type { Snippet } from 'svelte';
 
-    export let title = 'Confirm Password';
-    export let content = 'For your security, please confirm your password to continue.';
-    export let button = 'Confirm';
+    interface Props {
+        title?: string;
+        content?: string;
+        button?: string;
+        children?: Snippet;
+        confirmed?: () => void;
+    }
 
-    const dispatch = createEventDispatcher();
+    let {
+        title = 'Confirm Password',
+        content = 'For your security, please confirm your password to continue.',
+        button = 'Confirm',
+        children,
+        confirmed = () => {
+            // Do nothing by default
+        },
+    }: Props = $props();
 
     const form = useForm({
         password: '',
@@ -20,17 +33,17 @@
         processing: false,
     });
 
-    let confirmingPassword = false;
-    let passwordInput: TextInput;
+    let confirmingPassword = $state(false);
+    let passwordInput: TextInput | undefined = $state();
 
     const startConfirmingPassword = () => {
         axios.get('/user/confirmed-password-status').then((response) => {
             if (response.data.confirmed) {
-                dispatch('confirmed');
+                confirmed?.();
             } else {
                 confirmingPassword = true;
 
-                setTimeout(() => passwordInput.focus(), 250);
+                setTimeout(() => passwordInput?.focus(), 250);
             }
         });
     };
@@ -46,12 +59,12 @@
                 $form.processing = false;
 
                 closeModal();
-                tick().then(() => dispatch('confirmed'));
+                tick().then(() => confirmed?.());
             })
             .catch((error) => {
                 $form.processing = false;
                 $form.error = error.response.data.errors.password[0];
-                passwordInput.focus();
+                passwordInput?.focus();
             });
     };
 
@@ -64,50 +77,56 @@
 
 <span>
     <span
-        on:click={startConfirmingPassword}
-        on:keydown={startConfirmingPassword}
+        onclick={startConfirmingPassword}
+        onkeydown={startConfirmingPassword}
         role="button"
         tabindex="0"
     >
-        <slot />
+        {@render children?.()}
     </span>
 
-    <DialogModal show={confirmingPassword} on:closed={closeModal}>
-        <div slot="title" class="contents">
-            {title}
-        </div>
-
-        <div slot="content" class="contents">
-            {content}
-
-            <div class="mt-4">
-                <TextInput
-                    type="password"
-                    bind:this={passwordInput}
-                    bind:value={$form.password}
-                    error={$form.error}
-                    classes="mt-1 block w-3/4"
-                    placeholder="Password"
-                    autocomplete="current-password"
-                    on:entered={confirmPassword}
-                    data-testid="confirms-password-form-password"
-                />
-
-                <InputError message={$form.error} classes="mt-2" />
+    <DialogModal show={confirmingPassword} closed={closeModal}>
+        {#snippet dialogModalTitle()}
+            <div class="contents">
+                {title}
             </div>
-        </div>
+        {/snippet}
 
-        <div slot="footer" class="contents">
-            <SecondaryButton on:clicked={closeModal}>Cancel</SecondaryButton>
+        {#snippet dialogModalContent()}
+            <div class="contents">
+                {content}
 
-            <PrimaryButton
-                type="button"
-                classes="ms-3"
-                disabled={$form.processing}
-                on:clicked={confirmPassword}
-            >
-                {button}
-            </PrimaryButton>
-        </div>
+                <div class="mt-4">
+                    <TextInput
+                        type="password"
+                        bind:this={passwordInput}
+                        bind:value={$form.password}
+                        error={$form.error}
+                        classes="mt-1 block w-3/4"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        entered={confirmPassword}
+                        dataTestId="confirms-password-form-password"
+                    />
+
+                    <InputError message={$form.error} classes="mt-2" />
+                </div>
+            </div>
+        {/snippet}
+
+        {#snippet dialogModalFooter()}
+            <div class="contents">
+                <SecondaryButton clicked={closeModal}>Cancel</SecondaryButton>
+
+                <PrimaryButton
+                    type="button"
+                    classes="ms-3"
+                    disabled={$form.processing}
+                    clicked={confirmPassword}
+                >
+                    {button}
+                </PrimaryButton>
+            </div>
+        {/snippet}
     </DialogModal>
 </span>

@@ -6,10 +6,14 @@
     import PrimaryButton from '@/Components/PrimaryButton.svelte';
     import TextInput from '@/Components/TextInput.svelte';
 
-    export let classes = '';
+    interface Props {
+        classes?: string;
+    }
 
-    let passwordInput: TextInput;
-    let currentPasswordInput: TextInput;
+    let { classes = '' }: Props = $props();
+
+    let passwordInput: TextInput | undefined = $state();
+    let currentPasswordInput: TextInput | undefined = $state();
 
     const form = useForm({
         current_password: '',
@@ -17,11 +21,15 @@
         password_confirmation: '',
     });
 
-    const updatePassword = () => {
+    const updatePassword = (event: Event) => {
+        event.preventDefault();
+
         $form.put('/password', {
             preserveScroll: true,
             onSuccess: () => {
-                $form.reset();
+                $form.current_password = '';
+                $form.password = '';
+                $form.password_confirmation = '';
             },
             onError: () => {
                 if ($form.errors.password) {
@@ -46,7 +54,7 @@
         </p>
     </header>
 
-    <form on:submit|preventDefault={updatePassword} class="mt-6 space-y-6">
+    <form onsubmit={updatePassword} class="mt-6 space-y-6">
         <div>
             <InputLabel forElement="current_password" value="Current Password" />
 

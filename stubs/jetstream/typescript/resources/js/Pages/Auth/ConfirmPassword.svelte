@@ -12,14 +12,16 @@
         password: '',
     });
 
-    let passwordInput: TextInput;
+    let passwordInput: TextInput | undefined = $state();
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/user/confirm-password', {
             onFinish: () => {
                 $form.reset();
 
-                passwordInput.focus();
+                passwordInput?.focus();
             },
         });
     };
@@ -28,15 +30,17 @@
 <Helmet title="Secure Area" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="password" value="Password" />
             <TextInput

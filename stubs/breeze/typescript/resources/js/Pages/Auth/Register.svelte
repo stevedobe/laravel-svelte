@@ -14,7 +14,9 @@
         password_confirmation: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/register', {
             onFinish: () => {
                 $form.reset('password', 'password_confirmation');
@@ -26,7 +28,7 @@
 <GuestLayout>
     <Helmet title="Register" />
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="name" value="Name" />
 
@@ -96,7 +98,7 @@
             <a
                 href="/login"
                 use:inertia
-                class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
             >
                 Already registered?
             </a>

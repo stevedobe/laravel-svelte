@@ -1,12 +1,13 @@
 <script lang="ts">
     import { page } from '@inertiajs/svelte';
 
-    let show = true;
-    let style: 'success' | 'danger';
-    let message: string;
+    let show = $state(true);
 
-    $: style = $page.props.jetstream.flash?.bannerStyle || 'success';
-    $: message = $page.props.jetstream.flash?.banner || '';
+    let style: 'success' | 'danger' = $derived(
+        $page.props.jetstream.flash?.bannerStyle || 'success',
+    );
+
+    let message: string = $derived($page.props.jetstream.flash?.banner || '');
 </script>
 
 <div>
@@ -69,7 +70,7 @@
                             class:hover:bg-red-600={style === 'danger'}
                             class:focus:bg-red-600={style === 'danger'}
                             aria-label="Dismiss"
-                            on:click|preventDefault={() => (show = false)}
+                            onclick={() => (show = false)}
                         >
                             <svg
                                 class="size-5 text-white"

@@ -7,8 +7,12 @@
     import TextInput from '@/Components/TextInput.svelte';
     import GuestLayout from '@/Layouts/GuestLayout.svelte';
 
-    export let email: string;
-    export let token: string;
+    interface Props {
+        email: string;
+        token: string;
+    }
+
+    let { email, token }: Props = $props();
 
     const form = useForm({
         token: token,
@@ -17,7 +21,9 @@
         password_confirmation: '',
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/reset-password', {
             onFinish: () => {
                 $form.reset('password', 'password_confirmation');
@@ -29,7 +35,7 @@
 <GuestLayout>
     <Helmet title="Reset Password" />
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="email" value="Email" />
 

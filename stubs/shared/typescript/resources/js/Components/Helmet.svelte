@@ -1,8 +1,12 @@
 <script lang="ts">
     import { page } from '@inertiajs/svelte';
 
-    export let title = '';
-    export let description = '';
+    interface Props {
+        title?: string;
+        description?: string;
+    }
+
+    let { title = '', description = '' }: Props = $props();
 </script>
 
 <svelte:head>

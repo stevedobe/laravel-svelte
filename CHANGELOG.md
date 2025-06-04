@@ -2,6 +2,12 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.8.0
+
+### Added
+
+-   Svelte 5 syntax and reactivity support, applying runes where applicable.
+
 ## Version 1.7.1
 
 ### Added

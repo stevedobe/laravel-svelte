@@ -1,12 +1,25 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
+    import { onMount } from 'svelte';
+    import { fade, scale } from 'svelte/transition';
+    import type { Snippet } from 'svelte';
 
-    export let show = false;
-    export let maxWidth: 'sm' | 'md' | 'lg' | 'xl' | '2xl' = '2xl';
-    export let closeable = true;
+    interface Props {
+        show?: boolean;
+        maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+        closeable?: boolean;
+        children?: Snippet;
+        closed?: () => void;
+    }
 
-    const dispatch = createEventDispatcher();
+    let {
+        show = false,
+        maxWidth = '2xl',
+        closeable = true,
+        children,
+        closed = () => {
+            // Do nothing by default
+        },
+    }: Props = $props();
 
     const maxWidthClass = {
         sm: 'sm:max-w-sm',
@@ -16,17 +29,25 @@
         '2xl': 'sm:max-w-2xl',
     }[maxWidth];
 
-    $: document.body.style.overflow = show ? 'hidden' : 'visible';
+    $effect(() => {
+        document.body.style.overflow = show ? 'hidden' : 'visible';
+    });
 
     const close = () => {
         if (closeable) {
-            dispatch('closed');
+            closed?.();
         }
     };
 
-    const closeOnEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-            e.preventDefault();
+    const onBackdropActivation = (event: KeyboardEvent) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            close();
+        }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
 
             if (show) {
                 close();
@@ -48,24 +69,27 @@
     <div
         class="z-50 m-0 min-h-full min-w-full overflow-y-auto bg-transparent backdrop:bg-transparent"
         role="dialog"
-        in:fade={{ duration: 300 }}
-        out:fade={{ duration: 200 }}
     >
         <div class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0">
             <div
-                class="fixed inset-0 transform transition-all"
-                on:click={close}
-                on:keydown={close}
+                class="fixed inset-0"
+                onclick={close}
+                onkeydown={onBackdropActivation}
+                aria-label="Close modal"
                 role="button"
                 tabindex="0"
+                in:fade={{ duration: 150 }}
+                out:fade={{ duration: 100 }}
             >
                 <div class="absolute inset-0 bg-gray-500 opacity-75 dark:bg-gray-900"></div>
             </div>
 
             <div
-                class="mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 {maxWidthClass}"
+                class="relative z-10 mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full dark:bg-gray-800 {maxWidthClass}"
+                in:scale={{ duration: 200, start: 0.95, delay: 50, opacity: 1 }}
+                out:scale={{ duration: 150, start: 0.95 }}
             >
-                <slot />
+                {@render children?.()}
             </div>
         </div>
     </div>

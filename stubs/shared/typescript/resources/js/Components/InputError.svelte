@@ -1,6 +1,10 @@
 <script lang="ts">
-    export let message: string;
-    export let classes = '';
+    interface Props {
+        message: string;
+        classes?: string;
+    }
+
+    let { message, classes = '' }: Props = $props();
 </script>
 
 <div class:hidden={!message}>

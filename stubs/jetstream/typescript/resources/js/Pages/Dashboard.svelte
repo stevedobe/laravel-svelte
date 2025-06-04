@@ -4,11 +4,13 @@
 </script>
 
 <AppLayout title="Dashboard">
-    <div slot="header" class="contents">
-        <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
-            Dashboard
-        </h2>
-    </div>
+    {#snippet appLayoutheader()}
+        <div class="contents">
+            <h2 class="text-xl leading-tight font-semibold text-gray-800 dark:text-gray-200">
+                Dashboard
+            </h2>
+        </div>
+    {/snippet}
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">

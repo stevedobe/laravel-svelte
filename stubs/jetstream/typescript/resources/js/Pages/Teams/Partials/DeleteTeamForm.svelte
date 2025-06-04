@@ -6,12 +6,16 @@
     import SecondaryButton from '@/Components/SecondaryButton.svelte';
     import type { Team } from '@/Types';
 
-    export let team: Team;
-    export let classes = '';
+    interface Props {
+        team: Team;
+        classes?: string;
+    }
+
+    let { team, classes = '' }: Props = $props();
 
     const form = useForm({});
 
-    let confirmingTeamDeletion = false;
+    let confirmingTeamDeletion = $state(false);
 
     const confirmTeamDeletion = () => {
         confirmingTeamDeletion = true;
@@ -25,42 +29,58 @@
 </script>
 
 <ActionSection {classes}>
-    <div slot="title" class="contents">Delete Team</div>
+    {#snippet actionSectionTitle()}
+        <div class="contents">Delete Team</div>
+    {/snippet}
 
-    <div slot="description" class="contents">Permanently delete this team.</div>
+    {#snippet actionSectionDescription()}
+        <div class="contents">Permanently delete this team.</div>
+    {/snippet}
 
-    <div slot="content" class="contents">
-        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-            Once a team is deleted, all of its resources and data will be permanently deleted.
-            Before deleting this team, please download any data or information regarding this team
-            that you wish to retain.
-        </div>
-
-        <div class="mt-5">
-            <DangerButton on:clicked={confirmTeamDeletion}>Delete Team</DangerButton>
-        </div>
-
-        <!-- Delete Team Confirmation Modal -->
-        <ConfirmationModal
-            show={confirmingTeamDeletion}
-            on:closed={() => (confirmingTeamDeletion = false)}
-        >
-            <div slot="title" class="contents">Delete Team</div>
-
-            <div slot="content" class="contents">
-                Are you sure you want to delete this team? Once a team is deleted, all of its
-                resources and data will be permanently deleted.
+    {#snippet actionSectionContent()}
+        <div class="contents">
+            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
+                Once a team is deleted, all of its resources and data will be permanently deleted.
+                Before deleting this team, please download any data or information regarding this
+                team that you wish to retain.
             </div>
 
-            <div slot="footer" class="contents">
-                <SecondaryButton on:clicked={() => (confirmingTeamDeletion = false)}>
-                    Cancel
-                </SecondaryButton>
-
-                <DangerButton classes="ms-3" disabled={$form.processing} on:clicked={deleteTeam}>
-                    Delete Team
-                </DangerButton>
+            <div class="mt-5">
+                <DangerButton clicked={confirmTeamDeletion}>Delete Team</DangerButton>
             </div>
-        </ConfirmationModal>
-    </div>
+
+            <!-- Delete Team Confirmation Modal -->
+            <ConfirmationModal
+                show={confirmingTeamDeletion}
+                closed={() => (confirmingTeamDeletion = false)}
+            >
+                {#snippet confirmationModalTitle()}
+                    <div class="contents">Delete Team</div>
+                {/snippet}
+
+                {#snippet confirmationModalContent()}
+                    <div class="contents">
+                        Are you sure you want to delete this team? Once a team is deleted, all of
+                        its resources and data will be permanently deleted.
+                    </div>
+                {/snippet}
+
+                {#snippet confirmationModalFooter()}
+                    <div class="contents">
+                        <SecondaryButton clicked={() => (confirmingTeamDeletion = false)}>
+                            Cancel
+                        </SecondaryButton>
+
+                        <DangerButton
+                            classes="ms-3"
+                            disabled={$form.processing}
+                            clicked={deleteTeam}
+                        >
+                            Delete Team
+                        </DangerButton>
+                    </div>
+                {/snippet}
+            </ConfirmationModal>
+        </div>
+    {/snippet}
 </ActionSection>

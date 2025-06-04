@@ -8,8 +8,12 @@
     import TextInput from '@/Components/TextInput.svelte';
     import type { Permissions, Team } from '@/Types';
 
-    export let team: Team;
-    export let permissions: Permissions;
+    interface Props {
+        team: Team;
+        permissions: Permissions;
+    }
+
+    let { team, permissions }: Props = $props();
 
     const form = useForm({
         name: team.name,
@@ -23,53 +27,63 @@
     };
 </script>
 
-<FormSection on:submitted={updateTeamName}>
-    <div slot="title" class="contents">Team Name</div>
+<FormSection submitted={updateTeamName}>
+    {#snippet formSectionTitle()}
+        <div class="contents">Team Name</div>
+    {/snippet}
 
-    <div slot="description" class="contents">The team's name and owner information.</div>
+    {#snippet formSectionDescription()}
+        <div class="contents">The team's name and owner information.</div>
+    {/snippet}
 
-    <div slot="form" class="contents">
-        <!-- Team Owner Information -->
-        <div class="col-span-6">
-            <InputLabel forElement="" value="Team Owner" />
+    {#snippet formSectionForm()}
+        <div class="contents">
+            <!-- Team Owner Information -->
+            <div class="col-span-6">
+                <InputLabel forElement="" value="Team Owner" />
 
-            <div class="mt-2 flex items-center">
-                <img
-                    src={team.owner.profile_photo_url}
-                    alt={team.owner.name}
-                    class="size-12 rounded-full object-cover"
-                />
+                <div class="mt-2 flex items-center">
+                    <img
+                        src={team.owner.profile_photo_url}
+                        alt={team.owner.name}
+                        class="size-12 rounded-full object-cover"
+                    />
 
-                <div class="ms-4 leading-tight">
-                    <div class="text-gray-900 dark:text-white">{team.owner.name}</div>
-                    <div class="text-sm text-gray-700 dark:text-gray-300">
-                        {team.owner.email}
+                    <div class="ms-4 leading-tight">
+                        <div class="text-gray-900 dark:text-white">{team.owner.name}</div>
+                        <div class="text-sm text-gray-700 dark:text-gray-300">
+                            {team.owner.email}
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Team Name -->
+            <div class="col-span-6 sm:col-span-4">
+                <InputLabel forElement="name" value="Team Name" />
+
+                <TextInput
+                    id="name"
+                    bind:value={$form.name}
+                    error={$form.errors.name}
+                    classes="mt-1 block w-full"
+                    disabled={!permissions.canUpdateTeam}
+                />
+
+                <InputError message={$form.errors.name} classes="mt-2" />
+            </div>
         </div>
+    {/snippet}
 
-        <!-- Team Name -->
-        <div class="col-span-6 sm:col-span-4">
-            <InputLabel forElement="name" value="Team Name" />
+    {#snippet formSectionActions()}
+        <div class="contents">
+            {#if permissions.canUpdateTeam}
+                <ActionMessage on={$form.recentlySuccessful} classes="me-3">Saved.</ActionMessage>
 
-            <TextInput
-                id="name"
-                bind:value={$form.name}
-                error={$form.errors.name}
-                classes="mt-1 block w-full"
-                disabled={!permissions.canUpdateTeam}
-            />
-
-            <InputError message={$form.errors.name} classes="mt-2" />
+                <PrimaryButton disabled={$form.processing} dataTestId="save-button"
+                    >Save</PrimaryButton
+                >
+            {/if}
         </div>
-    </div>
-
-    <div slot="actions" class="contents">
-        {#if permissions.canUpdateTeam}
-            <ActionMessage on={$form.recentlySuccessful} classes="me-3">Saved.</ActionMessage>
-
-            <PrimaryButton disabled={$form.processing} dataTestId="save-button">Save</PrimaryButton>
-        {/if}
-    </div>
+    {/snippet}
 </FormSection>

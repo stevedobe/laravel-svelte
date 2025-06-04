@@ -2,9 +2,13 @@
     import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.svelte';
     import Helmet from '@/Components/Helmet.svelte';
 
-    export let policy: string;
-
     /* eslint svelte/no-at-html-tags: "off" */
+
+    interface Props {
+        policy: string;
+    }
+
+    let { policy }: Props = $props();
 </script>
 
 <Helmet title="Privacy Policy" />

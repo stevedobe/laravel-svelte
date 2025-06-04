@@ -1,12 +1,25 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
+    import type { Snippet } from 'svelte';
 
-    export let type: 'submit' | 'button' = 'button';
-    export let disabled = false;
-    export let classes = '';
-    export let dataTestId = '';
+    interface Props {
+        type?: 'submit' | 'button';
+        disabled?: boolean;
+        classes?: string;
+        dataTestId?: string;
+        children?: Snippet;
+        clicked?: () => void;
+    }
 
-    const dispatch = createEventDispatcher();
+    let {
+        type = 'button',
+        disabled = false,
+        classes = '',
+        dataTestId = '',
+        children,
+        clicked = () => {
+            // Do nothing by default
+        },
+    }: Props = $props();
 
     const baseClasses =
         'inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white';
@@ -14,15 +27,15 @@
 
 {#if disabled}
     <button {type} disabled class="{baseClasses} opacity-50 {classes}" data-testid={dataTestId}>
-        <slot />
+        {@render children?.()}
     </button>
 {:else}
     <button
         {type}
         class="{baseClasses} transition duration-150 ease-in-out hover:bg-red-500 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none active:bg-red-700 dark:focus:ring-offset-gray-800 {classes}"
-        on:click={() => dispatch('clicked')}
+        onclick={() => clicked?.()}
         data-testid={dataTestId}
     >
-        <slot />
+        {@render children?.()}
     </button>
 {/if}

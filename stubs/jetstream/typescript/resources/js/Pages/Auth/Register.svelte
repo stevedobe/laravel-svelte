@@ -17,7 +17,9 @@
         terms: false,
     });
 
-    const submit = () => {
+    const submit = (event: Event) => {
+        event.preventDefault();
+
         $form.post('/register', {
             onFinish: () => $form.reset('password', 'password_confirmation'),
         });
@@ -27,11 +29,13 @@
 <Helmet title="Register" />
 
 <AuthenticationCard>
-    <div slot="logo" class="contents">
-        <AuthenticationCardLogo />
-    </div>
+    {#snippet authenticationCardLogo()}
+        <div class="contents">
+            <AuthenticationCardLogo />
+        </div>
+    {/snippet}
 
-    <form on:submit|preventDefault={submit}>
+    <form onsubmit={submit}>
         <div>
             <InputLabel forElement="name" value="Name" />
             <TextInput
