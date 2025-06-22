@@ -32,11 +32,15 @@
 
     let twoFactorEnabled = $derived(!enabling && $page.props.auth.user?.two_factor_enabled);
 
+    let prevTwoFactorEnabled = false;
+
     $effect(() => {
-        if (!twoFactorEnabled) {
+        if (prevTwoFactorEnabled && !twoFactorEnabled) {
             $confirmationForm.reset();
             $confirmationForm.clearErrors();
         }
+
+        prevTwoFactorEnabled = twoFactorEnabled;
     });
 
     const enableTwoFactorAuthentication = () => {

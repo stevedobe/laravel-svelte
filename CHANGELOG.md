@@ -2,6 +2,13 @@
 
 All notable changes to `Laravel Svelte` will be documented in this file.
 
+## Version 1.8.1
+
+### Fixed
+
+-   Maximum update depth exceeded resolved with two factor authentication.
+
+
 ## Version 1.8.0
 
 ### Added
